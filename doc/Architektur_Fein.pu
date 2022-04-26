@@ -1,0 +1,90 @@
+@startuml Architektur_Grob
+skinparam Style strictuml
+skinparam genericDisplay old
+skinparam classAttributeIconSize 0
+skinparam monochrome true
+
+component KontaktSplitter{
+
+    component View{
+        class MainView
+    }
+
+    component ViewModel{
+        class MainViewViewModel{
+            'ToDo Bindings
+        }
+    }
+
+    component Model{
+        class Contact{
+            +name: string
+            +surname: string
+            +title: string
+            +adressation: string
+        }
+
+        class ParseResult<M>{
+            +model: M
+            +success: boolean
+            +errorMessages: IEnumerable<string>
+        }
+
+        enum Gender<<enum>>{
+            MALE
+            FEMALE
+            NEUTRAL
+        }
+    }
+
+    component Services{
+        class TitleService{
+            +SaveOrUpdateTitle(title: string, adressation: string): boolean
+            +GetTitles(): IEnumerable<string>
+            +GetAdressation(title: string): string
+        }
+
+        class AdressationService{
+            +SaveOrUpdateAdressation(adressation: string, gender: Gender): boolean
+            +GetAdressations(): IEnumerable<string>
+            +GetGender(adressation: string): Gender
+        }
+
+        class ParserService{
+            -titleService: TitleService
+            -adressationService: AdressationService
+            +ParseContact(contactInput: string): ParseResult<Contact>
+        }
+        
+        class LetterAdressationService{
+            -titleService: TitleService
+            -adressationService: AdressationService
+            +GenerateLetterAdressation(contact: Contact): string
+        }
+    }
+}
+
+
+
+MainView --> MainViewViewModel
+
+'MainViewViewModel --> ParserService
+'MainViewViewModel --> LetterAdressationService
+'MainViewViewModel --> Contact
+'MainViewViewModel --> TitleService
+'MainViewViewModel --> AdressationService
+MainViewViewModel --> Model
+MainViewViewModel --> Services
+
+LetterAdressationService --> TitleService
+LetterAdressationService --> AdressationService
+LetterAdressationService --> Contact
+
+TitleService <-- ParserService
+AdressationService <-- ParserService
+Contact <-- ParserService
+ParseResult <-- ParserService:<<bind>>M::Contact
+
+AdressationService --> Gender
+
+@enduml

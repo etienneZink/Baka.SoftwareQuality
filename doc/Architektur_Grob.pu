@@ -1,0 +1,37 @@
+@startuml Architektur_Grob
+skinparam Style strictuml
+skinparam genericDisplay old
+skinparam classAttributeIconSize 0
+skinparam monochrome true
+
+component KontaktSplitter{
+
+    component View{
+        class MainView
+    }
+
+    component ViewModel{
+        class MainViewViewModel
+    }
+
+    component Model{
+        class Contact
+    }
+
+    component Services{
+        class TitleService
+        class AdressationService
+        class ParserService
+        class LetterAdressationService
+    }
+}
+
+hide methods
+hide fields
+
+Model <-- ViewModel
+Services <-- ViewModel
+ViewModel <-- View
+Services --> Model
+
+@enduml
