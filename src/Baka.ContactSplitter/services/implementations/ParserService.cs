@@ -33,7 +33,7 @@ namespace Baka.ContactSplitter.services.implementations
         protected const string FirstName = "FirstName";
         protected const string LastName = "LastName";
 
-        protected virtual string NamePattern => $"^(?<{ Salutation }>(<PossibleSalutations> )?)(?<{ Titles }>(<PossibleTitles> )*)((?<{ FirstName }><FirstNamePattern>) (?<{ LastName }><LastNamePattern>)|(?<{ LastName }><LastNamePattern>), (?<{ FirstName }><FirstNamePattern>))$";
+        protected virtual string NamePattern => $@"^(?<{ Salutation }>(<PossibleSalutations>\s+)?)(?<{ Titles }>(<PossibleTitles>\s+)*)((?<{ FirstName }><FirstNamePattern>)\s+(?<{ LastName }><LastNamePattern>)|(?<{ LastName }><LastNamePattern>)\s*,\s+(?<{ FirstName }><FirstNamePattern>))$";
 
         public virtual ParseResult<Contact> ParseContact(string contactString)
         {
@@ -48,16 +48,16 @@ namespace Baka.ContactSplitter.services.implementations
 
             contactString = contactString.Trim();
 
-            var possibleSalutations = SalutationService.GetSalutations().Aggregate((current, salutation) => current + salutation + "|");
-            possibleSalutations = "(" + string.Concat(possibleSalutations.SkipLast(1)) + ")";
+            var possibleSalutations = SalutationService.GetSalutations().Aggregate((current, salutation) => current + "|" + salutation);
+            possibleSalutations = "(" + string.Concat(possibleSalutations) + ")";
 
-            var possibleTitles = TitleService.GetTitles().Aggregate((current, title) => current + title + "|");
-            possibleTitles = "(" + string.Concat(possibleTitles.SkipLast(1)) + ")";
+            var possibleTitles = TitleService.GetTitles().Aggregate((current, title) => current + "|" + title);
+            possibleTitles = "(" + string.Concat(possibleTitles) + ")";
 
             var regex = NamePattern.Replace("<PossibleSalutations>", possibleSalutations);
             regex = regex.Replace("<PossibleTitles>", possibleTitles);
-            regex = regex.Replace("<FirstNamePattern>", "[A-Z][a-z]*([ -][A-Z][a-z]*)*");
-            regex = regex.Replace("<LastNamePattern>", @"([a-z]+ )*[A-Z][a-z]*([-][A-Z][a-z]*)?");
+            regex = regex.Replace("<FirstNamePattern>", @"[A-Z][a-z]*((\s+|\-)[A-Z][a-z]*)*");
+            regex = regex.Replace("<LastNamePattern>", @"([a-z]+\s+)*[A-Z][a-z]*([-][A-Z][a-z]*)?");
 
             var matchResult = Regex.Match(contactString, regex);
 
@@ -78,10 +78,14 @@ namespace Baka.ContactSplitter.services.implementations
                 return parseResult;
             }
 
-            var salutation = matchResult.Groups[Salutation].Value;
+            var salutation = matchResult.Groups[Salutation].Value.Trim();
             var titles = matchResult.Groups[Titles].Value;
-            var firstName = matchResult.Groups[FirstName].Value;
-            var lastName = matchResult.Groups[LastName].Value;
+            var firstName = Regex.Split(matchResult.Groups[FirstName].Value, @"\s+")
+                .Where(s => s != string.Empty)
+                .Aggregate((current, firstName) => current + " " + firstName);
+            var lastName = Regex.Split(matchResult.Groups[LastName].Value, @"\s+")
+                .Where(s => s != string.Empty)
+                .Aggregate((current, lastName) => current + " " + lastName);
 
             parseResult.Model = new Contact
             {
@@ -92,13 +96,16 @@ namespace Baka.ContactSplitter.services.implementations
 
             var orderedTitlesList = TitleService.GetTitles().OrderByDescending(title => title.Length);
 
-            foreach (var title in orderedTitlesList)
+            if (titles != string.Empty)
             {
-                if (titles.Contains(title))
+                foreach (var title in orderedTitlesList)
                 {
-                    titles = titles.Replace(title, string.Empty);
+                    if (titles.Contains(title))
+                    {
+                        titles = titles.Replace(title, string.Empty);
 
-                    parseResult.Model.Titles.Add(title);
+                        parseResult.Model.Titles.Add(title);
+                    }
                 }
             }
 
