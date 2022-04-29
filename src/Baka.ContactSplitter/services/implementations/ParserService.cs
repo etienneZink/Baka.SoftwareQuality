@@ -79,13 +79,13 @@ namespace Baka.ContactSplitter.services.implementations
             }
 
             var salutation = matchResult.Groups[Salutation].Value.Trim();
-            var titles = matchResult.Groups[Titles].Value;
+            var titles = matchResult.Groups[Titles].Value.Trim();
             var firstName = Regex.Split(matchResult.Groups[FirstName].Value, @"\s+")
                 .Where(s => s != string.Empty)
-                .Aggregate((current, firstName) => current + " " + firstName);
+                .Aggregate((current, firstName) => $"{current} {firstName}");
             var lastName = Regex.Split(matchResult.Groups[LastName].Value, @"\s+")
                 .Where(s => s != string.Empty)
-                .Aggregate((current, lastName) => current + " " + lastName);
+                .Aggregate((current, lastName) => $"{current} {lastName}");
 
             parseResult.Model = new Contact
             {
@@ -94,21 +94,22 @@ namespace Baka.ContactSplitter.services.implementations
                 LastName = lastName
             };
 
-            var orderedTitlesList = TitleService.GetTitles().OrderByDescending(title => title.Length);
-
-            if (titles != string.Empty)
+            var orderedTitlesList = TitleService
+                .GetTitles()
+                .OrderByDescending(title => title.Length)
+                .ToList();
+            
+            while (titles!= string.Empty)
             {
-                foreach (var title in orderedTitlesList)
-                {
-                    if (titles.Contains(title))
-                    {
-                        titles = titles.Replace(title, string.Empty);
+                var longestMatch = orderedTitlesList
+                    .First(title => titles.StartsWith(title));
 
-                        parseResult.Model.Titles.Add(title);
-                    }
-                }
+                titles = titles
+                    .Replace(longestMatch, string.Empty)
+                    .Trim();
+                parseResult.Model.Titles.Add(longestMatch);
             }
-
+            
             return parseResult;
         }
     }
