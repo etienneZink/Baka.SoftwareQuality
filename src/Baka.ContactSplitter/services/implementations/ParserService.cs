@@ -1,7 +1,6 @@
 ﻿using Baka.ContactSplitter.model;
 using Baka.ContactSplitter.services.interfaces;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 
@@ -33,7 +32,7 @@ namespace Baka.ContactSplitter.services.implementations
         protected const string FirstName = "FirstName";
         protected const string LastName = "LastName";
 
-        protected virtual string NamePattern => $@"^(?<{ Salutation }>(<PossibleSalutations>\s+)?)(?<{ Titles }>(<PossibleTitles>\s+)*)((?<{ FirstName }><FirstNamePattern>)\s+(?<{ LastName }><LastNamePattern>)|(?<{ LastName }><LastNamePattern>)\s*,\s+(?<{ FirstName }><FirstNamePattern>))$";
+        protected virtual string ContactPattern => $@"^(?<{ Salutation }>(<PossibleSalutations>\s+)?)(?<{ Titles }>(<PossibleTitles>\s+)*)((?<{ FirstName }><FirstNamePattern>)\s+(?<{ LastName }><LastNamePattern>)|(?<{ LastName }><LastNamePattern>)\s*,\s+(?<{ FirstName }><FirstNamePattern>))$";
 
         public virtual ParseResult<Contact> ParseContact(string contactString)
         {
@@ -48,14 +47,18 @@ namespace Baka.ContactSplitter.services.implementations
 
             contactString = contactString.Trim();
 
-            var possibleSalutations = SalutationService.GetSalutations().Aggregate((current, salutation) => current + "|" + salutation);
-            possibleSalutations = "(" + string.Concat(possibleSalutations) + ")";
+            var possibleSalutations = SalutationService.GetSalutations();
+            if (!possibleSalutations.Any()) possibleSalutations = new[] { string.Empty };
+            var possibleSalutationsRegex = possibleSalutations.Aggregate((current, salutation) => current + "|" + salutation);
+            possibleSalutationsRegex = "(" + string.Concat(possibleSalutationsRegex) + ")";
 
-            var possibleTitles = TitleService.GetTitles().Aggregate((current, title) => current + "|" + title);
-            possibleTitles = "(" + string.Concat(possibleTitles) + ")";
+            var possibleTitles = TitleService.GetTitles();
+            if (!possibleTitles.Any()) possibleTitles = new[] { string.Empty };
+            var possibleTitlesRegex = possibleTitles.Aggregate((current, title) => current + "|" + title);
+            possibleTitlesRegex = "(" + string.Concat(possibleTitlesRegex) + ")";
 
-            var regex = NamePattern.Replace("<PossibleSalutations>", possibleSalutations);
-            regex = regex.Replace("<PossibleTitles>", possibleTitles);
+            var regex = ContactPattern.Replace("<PossibleSalutations>", possibleSalutationsRegex);
+            regex = regex.Replace("<PossibleTitles>", possibleTitlesRegex);
             regex = regex.Replace("<FirstNamePattern>", @"[A-Z][a-z]*((\s+|\-)[A-Z][a-z]*)*");
             regex = regex.Replace("<LastNamePattern>", @"([a-z]+\s+)*[A-Z][a-z]*([-][A-Z][a-z]*)?");
 
@@ -63,17 +66,19 @@ namespace Baka.ContactSplitter.services.implementations
 
             if (!matchResult.Success)
             {
-                foreach (var matchGroup in matchResult.Groups.Values.Where(group => !group.Success))
-                {
-                    parseResult.ErrorMessages.Add(matchGroup.Name switch
-                    {
-                        Salutation => "Die Anrede konnte nicht erfolgreich erkannt werden!",
-                        Titles => "Die Titel konnten nicht erfolgreich erkannt werden!",
-                        FirstName => "Der Vorname konnte nicht erfolgreich erkannt werden!",
-                        LastName => "Der Nachname konnte nicht erfolgreich erkannt werden!",
-                        _ => "Eine Eingabe konnte nicht erfolgreich erkannt werden!"
-                    });
-                }
+                parseResult.ErrorMessages.Add("Die Eingabe konnte nicht erfolgreich eingelesen werden!");
+
+                //foreach (var matchGroup in matchResult.Groups.Values.Where(group => !group.Success))
+                //{
+                //    parseResult.ErrorMessages.Add(matchGroup.Name switch
+                //    {
+                //        Salutation => "Die Anrede konnte nicht erfolgreich erkannt werden!",
+                //        Titles => "Die Titel konnten nicht erfolgreich erkannt werden!",
+                //        FirstName => "Der Vorname konnte nicht erfolgreich erkannt werden!",
+                //        LastName => "Der Nachname konnte nicht erfolgreich erkannt werden!",
+                //        _ => "Eine Eingabe konnte nicht erfolgreich erkannt werden!"
+                //    });
+                //}
 
                 return parseResult;
             }
