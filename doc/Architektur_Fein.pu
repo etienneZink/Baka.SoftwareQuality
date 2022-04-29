@@ -18,10 +18,10 @@ component KontaktSplitter{
 
     component Model{
         class Contact{
-            +name: string
-            +surname: string
-            +title: string
-            +adressation: string
+            +salutation: string
+            +lastName: string
+            +firstName: string
+            +titles: IEnumerable<string>
         }
 
         class ParseResult<M>{
@@ -39,27 +39,27 @@ component KontaktSplitter{
 
     component Services{
         class TitleService{
-            +SaveOrUpdateTitle(title: string, adressation: string): boolean
+            +SaveOrUpdateTitle(title: string, titleSalutation: string): boolean
             +GetTitles(): IEnumerable<string>
-            +GetAdressation(title: string): string
+            +GetTitleSalutation(title: string): string
         }
 
-        class AdressationService{
-            +SaveOrUpdateAdressation(adressation: string, gender: Gender): boolean
-            +GetAdressations(): IEnumerable<string>
-            +GetGender(adressation: string): Gender
+        class SalutationService{
+            +SaveOrUpdateSalutation(salutation: string, gender: Gender): boolean
+            +GetSalutations(): IEnumerable<string>
+            +GetGender(salutation: string): Gender
         }
 
         class ParserService{
             -titleService: TitleService
-            -adressationService: AdressationService
+            -salutationService: SalutationService
             +ParseContact(contactInput: string): ParseResult<Contact>
         }
         
-        class LetterAdressationService{
+        class LetterSalutationService{
             -titleService: TitleService
-            -adressationService: AdressationService
-            +GenerateLetterAdressation(contact: Contact): string
+            -salutationService: SalutationService
+            +GenerateLetterSalutation(contact: Contact): string
         }
     }
 }
@@ -69,22 +69,22 @@ component KontaktSplitter{
 MainView --> MainViewViewModel
 
 'MainViewViewModel --> ParserService
-'MainViewViewModel --> LetterAdressationService
+'MainViewViewModel --> LetterSalutationService
 'MainViewViewModel --> Contact
 'MainViewViewModel --> TitleService
-'MainViewViewModel --> AdressationService
+'MainViewViewModel --> SalutationService
 MainViewViewModel --> Model
 MainViewViewModel --> Services
 
-LetterAdressationService --> TitleService
-LetterAdressationService --> AdressationService
-LetterAdressationService --> Contact
+LetterSalutationService --> TitleService
+LetterSalutationService --> SalutationService
+LetterSalutationService --> Contact
 
 TitleService <-- ParserService
-AdressationService <-- ParserService
+SalutationService <-- ParserService
 Contact <-- ParserService
 ParseResult <-- ParserService:<<bind>>M::Contact
 
-AdressationService --> Gender
+SalutationService --> Gender
 
 @enduml
