@@ -12,6 +12,9 @@ namespace Baka.ContactSplitter.services.interfaces
         /// <returns>True, iff the title with the titleSalutation could be saved or updated.</returns>
         bool SaveOrUpdateTitle(string title, string titleSalutation);
 
+        /// <param name="title"></param>
+        /// <returns>True, iff the title could be removed.</returns>
+        bool DeleteTitle(string title);
         
         /// <returns>All titles stored.</returns>
         IEnumerable<string> GetTitles();

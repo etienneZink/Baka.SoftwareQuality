@@ -13,6 +13,10 @@ namespace Baka.ContactSplitter.services.interfaces
         /// <returns>True, iff the salutation with the gender could be saved or updated.</returns>
         bool SaveOrUpdateSalutation(string salutation, Gender gender);
 
+        /// <param name="salutation"></param>
+        /// <returns>True, iff the salutation could be removed.</returns>
+        bool DeleteSalutation(string salutation);
+
         /// <returns>All salutations stored.</returns>
         IEnumerable<string> GetSalutations();
 

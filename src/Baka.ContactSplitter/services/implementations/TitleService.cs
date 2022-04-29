@@ -11,7 +11,7 @@ namespace Baka.ContactSplitter.services.implementations
     /// </summary>
     public class TitleService: ITitleService
     {
-        private static string TitleJsonPath => "resources/Titles.json";
+        private string TitleJsonPath => "resources/Titles.json";
 
         private Dictionary<string, string> TitleToTitleSalutation { get; set; }
 
@@ -23,17 +23,17 @@ namespace Baka.ContactSplitter.services.implementations
             if (TitleToTitleSalutation.ContainsKey(title)) TitleToTitleSalutation[title] = titleSalutation;
             else TitleToTitleSalutation.Add(title, titleSalutation);
 
-            try
-            {
-                using var streamWriter = new StreamWriter(TitleJsonPath, false);
-                streamWriter.Write(JsonConvert.SerializeObject(TitleToTitleSalutation));
-                streamWriter.Flush();
-            }
-            catch
-            {
-                return false;
-            }
-            
+            if (!WriteTitleJson()) return false;
+            TitleToTitleSalutation = LoadTitleJson();
+            return true;
+        }
+
+        public bool DeleteTitle(string title)
+        {
+            if (!TitleToTitleSalutation.ContainsKey(title)) return true;
+            TitleToTitleSalutation.Remove(title);
+
+            if (!WriteTitleJson()) return false;
             TitleToTitleSalutation = LoadTitleJson();
             return true;
         }
@@ -46,7 +46,7 @@ namespace Baka.ContactSplitter.services.implementations
         /// Tries to read the titles from the JSON in TitleJsonPath.
         /// </summary>
         /// <returns>The dictionary parsed from TitleJsonPath or a empty dictionary.</returns>
-        private static Dictionary<string, string> LoadTitleJson()
+        private Dictionary<string, string> LoadTitleJson()
         {
             try
             {
@@ -58,6 +58,22 @@ namespace Baka.ContactSplitter.services.implementations
             {
                 return new Dictionary<string, string>();
             }
+        }
+
+        private bool WriteTitleJson()
+        {
+            try
+            {
+                using var streamWriter = new StreamWriter(TitleJsonPath, false);
+                streamWriter.Write(JsonConvert.SerializeObject(TitleToTitleSalutation));
+                streamWriter.Flush();
+            }
+            catch
+            {
+                return false;
+            }
+
+            return true;
         }
     }
 }
