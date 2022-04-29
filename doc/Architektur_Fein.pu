@@ -60,7 +60,6 @@ component KontaktSplitter{
         
         class LetterSalutationService{
             -titleService: TitleService
-            -salutationService: SalutationService
             +GenerateLetterSalutation(contact: Contact): string
         }
     }
@@ -79,7 +78,6 @@ MainViewViewModel --> Model
 MainViewViewModel --> Services
 
 LetterSalutationService --> TitleService
-LetterSalutationService --> SalutationService
 LetterSalutationService --> Contact
 
 TitleService <-- ParserService
