@@ -74,7 +74,7 @@ namespace Baka.ContactSplitter.Test
         }
 
         [TestMethod]
-        public void ParserService_ParceContact_contactStringIsNull_Fail()
+        public void ParserService_ParseContact_contactStringIsNull_Fail()
         {
             // Arrange
             var titleService = Substitute.For<ITitleService>();
@@ -100,12 +100,16 @@ namespace Baka.ContactSplitter.Test
         }
 
         [TestMethod]
-        [DataRow("Frau Professorin Dipl.-Ing. Reinhilde Zufall-Experiment 8")]
-        public void ParserService_ParceContact__Fail(string contactString)
+        [DataRow("Frau Dr. rer. nat. Reinhilde Zufall-Experiment1")]
+        [DataRow("Frau Dr. rer. nat. Reinhilde Zufall-Experiment-Versuch")]
+        [DataRow("Frau Dr. rer. nat. Reinhilde1 Zufall-Experiment")]
+        [DataRow("Frau Dr. rer. nat. Dipl.-Ing. Reinhilde Zufall-Experiment")]
+        [DataRow("Herr Dr. rer. nat. Reinhilde Zufall-Experiment")]
+        public void ParserService_ParseContact_contactStringWithIncorrectFormat_Fail(string contactString)
         {
             // Arrange
             var titleService = Substitute.For<ITitleService>();
-            titleService.GetTitles().Returns(new[] { "Professorin", "Dipl.- Ing." });
+            titleService.GetTitles().Returns(new[] { "Dr. rer. nat." });
 
             var salutationService = Substitute.For<ISalutationService>();
             salutationService.GetSalutations().Returns(new[] { "Frau" });
