@@ -40,12 +40,14 @@ component KontaktSplitter{
     component Services{
         class TitleService{
             +SaveOrUpdateTitle(title: string, titleSalutation: string): boolean
+            +DeleteTitle(title: string): boolean
             +GetTitles(): IEnumerable<string>
             +GetTitleSalutation(title: string): string
         }
 
         class SalutationService{
             +SaveOrUpdateSalutation(salutation: string, gender: Gender): boolean
+            +DeleteSalutation(salutation: string): boolean
             +GetSalutations(): IEnumerable<string>
             +GetGender(salutation: string): Gender
         }
