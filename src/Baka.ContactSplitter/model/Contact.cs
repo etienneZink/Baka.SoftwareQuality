@@ -14,9 +14,10 @@ namespace Baka.ContactSplitter.model
 
         public string FirstName { get; init; }
 
+        private IList<string> _Titles;
         /// <summary>
         /// A contact can have zero or many titles.
         /// </summary>
-        public IEnumerable<string> Titles { get; init; }
+        public IList<string> Titles => _Titles ??= new List<string>();
     }
 }

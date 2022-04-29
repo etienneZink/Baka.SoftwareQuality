@@ -6,7 +6,7 @@ using Newtonsoft.Json;
 
 namespace Baka.ContactSplitter.services.implementations
 {
-    public class SalutationService:ISalutationService
+    public class SalutationService : ISalutationService
     {
         private string SalutationJsonPath => "resources/Salutations.json";
 

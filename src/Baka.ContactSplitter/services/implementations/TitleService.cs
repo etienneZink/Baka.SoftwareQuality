@@ -9,7 +9,7 @@ namespace Baka.ContactSplitter.services.implementations
     /// <summary>
     /// Implementation of the service interface ITitleService.
     /// </summary>
-    public class TitleService: ITitleService
+    public class TitleService : ITitleService
     {
         private string TitleJsonPath => "resources/Titles.json";
 
