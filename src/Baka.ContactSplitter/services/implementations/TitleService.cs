@@ -40,7 +40,7 @@ namespace Baka.ContactSplitter.services.implementations
 
         public IEnumerable<string> GetTitles() => TitleToTitleSalutation.Keys;
 
-        public string GetTitleSalutation(string title) => TitleToTitleSalutation[title];
+        public string GetTitleSalutation(string title) => TitleToTitleSalutation.ContainsKey(title) ? TitleToTitleSalutation[title] : string.Empty;
 
         /// <summary>
         /// Tries to read the titles from the JSON in TitleJsonPath.
@@ -60,6 +60,7 @@ namespace Baka.ContactSplitter.services.implementations
             }
         }
 
+        /// <returns>True, iff TitleToTitleSalutation could be written into TitleJsonPath as JSON.</returns>
         private bool WriteTitleJson()
         {
             try
