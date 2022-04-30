@@ -4,7 +4,6 @@ namespace Baka.ContactSplitter.model
 {
     /// <summary>
     /// Represents a contact which is split into its individual parts.
-    /// The gender is not stored because it can be retrieved with ISalutationService.
     /// </summary>
     public class Contact
     {
@@ -13,6 +12,8 @@ namespace Baka.ContactSplitter.model
         public string LastName { get; init; }
 
         public string FirstName { get; init; }
+
+        public Gender Gender { get; init; }
 
         private IList<string> _Titles;
         /// <summary>
