@@ -20,9 +20,13 @@ namespace Baka.ContactSplitter
         protected override void OnStartup(StartupEventArgs e)
         {
             ContainerBuilder containerBuilder = new ContainerBuilder();
+            //add services as service interfaces to dependency injection
             containerBuilder.RegisterAssemblyTypes(Assembly.GetExecutingAssembly())
                 .Where(t => t.Namespace.Contains("services") && t.IsClass)
                 .As(t => t.GetInterfaces().FirstOrDefault(i => i.Name == "I" + t.Name));
+            //add views and viewmodels to dependency injection
+            containerBuilder.RegisterAssemblyTypes(Assembly.GetExecutingAssembly())
+                .Where(t => t.IsClass && (t.Namespace.Contains("view") || t.Namespace.Contains("viewModel")));
             containerBuilder.RegisterInstance(this);
 
             Container = containerBuilder.Build();
