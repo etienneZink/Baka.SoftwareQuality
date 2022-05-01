@@ -24,39 +24,38 @@ namespace Baka.ContactSplitter.Test
         /// <param name="lastName"></param>
         /// <param name="titles"></param>
         [TestMethod]
-        [DataRow("Reinhilde Zufall", "", "Reinhilde", "Zufall", Gender.Neutral)]
-        [DataRow("Frau Reinhilde Zufall", "Frau", "Reinhilde", "Zufall", Gender.Female)]
-        [DataRow("Mrs. Reinhilde Zufall", "Mrs.", "Reinhilde", "Zufall", Gender.Female)]
-        [DataRow("Ms. Reinhilde Zufall", "Ms.", "Reinhilde", "Zufall", Gender.Female)]
-        [DataRow("Mmd. Reinhilde Zufall", "Mmd.", "Reinhilde", "Zufall", Gender.Female)]
-        [DataRow("Herr Reiner   Zufall", "Herr", "Reiner", "Zufall", Gender.Male)]
-        [DataRow("Mr.   Reiner Zufall", "Mr.", "Reiner", "Zufall", Gender.Male)]
-        [DataRow("Sir Reiner Zufall", "Sir", "Reiner", "Zufall", Gender.Male)]
-        [DataRow("Frau   Zufall  ,   Reinhilde", "Frau", "Reinhilde", "Zufall", Gender.Female)]
-        [DataRow("Frau Reinhilde  Gertrut   Zufall", "Frau", "Reinhilde Gertrut", "Zufall", Gender.Female)]
-        [DataRow("Frau Reinhilde Zufall-Experiment", "Frau", "Reinhilde", "Zufall-Experiment", Gender.Female)]
-        [DataRow("Frau    Reinhilde    von   Zufall", "Frau", "Reinhilde", "von Zufall", Gender.Female)]
-        [DataRow("Frau Reinhilde   von   dem   Zufall", "Frau", "Reinhilde", "von dem Zufall", Gender.Female)]
-        [DataRow("Herr Professor Reiner   Zufall", "Herr", "Reiner", "Zufall", Gender.Male, "Professor")]
-        [DataRow("Frau Professorin Reinhilde Zufall", "Frau", "Reinhilde", "Zufall", Gender.Female, "Professorin")]
-        [DataRow("Frau Prof. Reinhilde Zufall", "Frau", "Reinhilde", "Zufall", Gender.Female, "Prof.")]
-        [DataRow("Frau Dr. Reinhilde Zufall", "Frau", "Reinhilde", "Zufall", Gender.Female, "Dr.")]
-        [DataRow("Frau Dr. rer. nat. Reinhilde Zufall", "Frau", "Reinhilde", "Zufall", Gender.Female, "Dr. rer. nat.")]
-        [DataRow("Frau Dipl.-Ing. Reinhilde Zufall", "Frau", "Reinhilde", "Zufall", Gender.Female, "Dipl.-Ing.")]
-        [DataRow("Frau M.Sc. Reinhilde Zufall", "Frau", "Reinhilde", "Zufall", Gender.Female, "M.Sc.")]
-        [DataRow("Frau B.Sc. Reinhilde Zufall", "Frau", "Reinhilde", "Zufall", Gender.Female, "B.Sc.")]
-        [DataRow("Frau    Prof.   Dr.    Reinhilde    Zufall", "Frau", "Reinhilde", "Zufall", Gender.Female, "Prof.", "Dr.")]
-        [DataRow("Frau    Professorin   Dr.  Dipl.-Ing.  Reinhilde    Zufall", "Frau", "Reinhilde", "Zufall", Gender.Female, "Professorin", "Dr.", "Dipl.-Ing.")]
+        [DataRow("Reinhilde Zufall", "", "Reinhilde", "Zufall")]
+        [DataRow("Frau Reinhilde Zufall", "Frau", "Reinhilde", "Zufall")]
+        [DataRow("Mrs. Reinhilde Zufall", "Mrs.", "Reinhilde", "Zufall")]
+        [DataRow("Ms. Reinhilde Zufall", "Ms.", "Reinhilde", "Zufall")]
+        [DataRow("Mmd. Reinhilde Zufall", "Mmd.", "Reinhilde", "Zufall")]
+        [DataRow("Herr Reiner   Zufall", "Herr", "Reiner", "Zufall")]
+        [DataRow("Mr.   Reiner Zufall", "Mr.", "Reiner", "Zufall")]
+        [DataRow("Sir Reiner Zufall", "Sir", "Reiner", "Zufall")]
+        [DataRow("Frau   Zufall  ,   Reinhilde", "Frau", "Reinhilde", "Zufall")]
+        [DataRow("Frau Reinhilde  Gertrut   Zufall", "Frau", "Reinhilde Gertrut", "Zufall")]
+        [DataRow("Frau Reinhilde Zufall-Experiment", "Frau", "Reinhilde", "Zufall-Experiment")]
+        [DataRow("Frau    Reinhilde    von   Zufall", "Frau", "Reinhilde", "von Zufall")]
+        [DataRow("Frau Reinhilde   von   dem   Zufall", "Frau", "Reinhilde", "von dem Zufall")]
+        [DataRow("Herr Professor Reiner   Zufall", "Herr", "Reiner", "Zufall", "Professor")]
+        [DataRow("Frau Professorin Reinhilde Zufall", "Frau", "Reinhilde", "Zufall", "Professorin")]
+        [DataRow("Frau Prof. Reinhilde Zufall", "Frau", "Reinhilde", "Zufall", "Prof.")]
+        [DataRow("Frau Dr. Reinhilde Zufall", "Frau", "Reinhilde", "Zufall", "Dr.")]
+        [DataRow("Frau Dr. rer. nat. Reinhilde Zufall", "Frau", "Reinhilde", "Zufall", "Dr. rer. nat.")]
+        [DataRow("Frau Dipl.-Ing. Reinhilde Zufall", "Frau", "Reinhilde", "Zufall", "Dipl.-Ing.")]
+        [DataRow("Frau M.Sc. Reinhilde Zufall", "Frau", "Reinhilde", "Zufall", "M.Sc.")]
+        [DataRow("Frau B.Sc. Reinhilde Zufall", "Frau", "Reinhilde", "Zufall", "B.Sc.")]
+        [DataRow("Frau    Prof.   Dr.    Reinhilde    Zufall", "Frau", "Reinhilde", "Zufall", "Prof.", "Dr.")]
+        [DataRow("Frau    Professorin   Dr.  Dipl.-Ing.  Reinhilde    Zufall", "Frau", "Reinhilde", "Zufall", "Professorin", "Dr.", "Dipl.-Ing.")]
         public void ParserService_ParseContact_Success(string contactString,
-            string salutation, string firstName, string lastName, Gender gender, params string[] titles)
+            string salutation, string firstName, string lastName, params string[] titles)
         {
             // Arrange
             var titleService = Substitute.For<ITitleService>();
             titleService.GetTitles().Returns(titles);
 
             var salutationService = Substitute.For<ISalutationService>();
-            salutationService.GetSalutations().Returns(new string[] { salutation });
-            salutationService.GetGender(salutation).Returns(gender);
+            salutationService.GetSalutations().Returns(new [] { salutation });
 
             var parser = new ParserService(titleService, salutationService);
 
@@ -69,7 +68,6 @@ namespace Baka.ContactSplitter.Test
             Assert.AreEqual(salutation, parseResult.Model.Salutation);
             Assert.AreEqual(firstName, parseResult.Model.FirstName);
             Assert.AreEqual(lastName, parseResult.Model.LastName);
-            Assert.AreEqual(gender, parseResult.Model.Gender);
             Assert.IsTrue(titles.SequenceEqual(parseResult.Model.Titles));
 
             titleService.Received(2).GetTitles();
