@@ -7,56 +7,23 @@ using Baka.ContactSplitter.viewModel;
 
 namespace Baka.ContactSplitter.controller
 {
-    public class TitleController
+    public class TitleController: BaseWindowController<TitleWindow, TitleWindowViewModel>
     {
-        private TitleWindow View { get; }
-        private TitleWindowViewModel ViewModel { get; }
-
         private ITitleService TitleService { get; }
 
-        public TitleController(TitleWindow view, TitleWindowViewModel viewModel, ITitleService titleService)
+        public TitleController(TitleWindow view, TitleWindowViewModel viewModel, ITitleService titleService): base(view, viewModel)
         {
-            View = view;
-            ViewModel = viewModel;
             ViewModel.AddOrUpdateCommand = new RelayCommand(ExecuteAddOrUpdateCommand, CanExecuteAddOrUpdateCommand);
             ViewModel.DeleteCommand = new RelayCommand(ExecuteDeleteCommand, CanExecuteDeleteCommand);
             ViewModel.TitleService = titleService;
-            View.DataContext = ViewModel;
             TitleService = titleService;
-
-            foreach (var title in TitleService.GetTitles())
-            {
-                ViewModel.Titles.Add(new TitleToTitleSalutation
-                {
-                    Title = title,
-                    TitleSalutation = TitleService.GetTitleSalutation(title)
-                });
-            }
-        }
-
-        public void Initialize()
-        {
-            View.ShowDialog();
+            LoadTitlesToTitleSalutations();
         }
 
         public void ExecuteAddOrUpdateCommand(object o)
         {
             TitleService.SaveOrUpdateTitle(ViewModel.Title, ViewModel.TitleSalutation);
-
-            if (ViewModel.Titles.All(tts => tts.Title != ViewModel.Title))
-            {
-                ViewModel.Titles.Add(new TitleToTitleSalutation
-                {
-                    Title = View.Title,
-                    TitleSalutation = TitleService.GetTitleSalutation(ViewModel.Title)
-                });
-            }
-            else
-            {
-                var tts = ViewModel.Titles.FirstOrDefault(tts => tts.Title == ViewModel.Title);
-                if(tts is not null) tts.TitleSalutation = ViewModel.TitleSalutation;
-            }
-
+            LoadTitlesToTitleSalutations();
             ViewModel.Title = string.Empty;
             ViewModel.TitleSalutation = string.Empty;
         }
@@ -78,6 +45,23 @@ namespace Baka.ContactSplitter.controller
         public bool CanExecuteDeleteCommand(object o)
         {
             return ViewModel.SelectedTitleIndex != -1;
+        }
+
+        private void LoadTitlesToTitleSalutations()
+        {
+            ViewModel.Titles.Clear();
+            var titleToTitleSalutations = TitleService
+                .GetTitles()
+                .Select(t => new TitleToTitleSalutation
+                {
+                    Title = t,
+                    TitleSalutation = TitleService.GetTitleSalutation(t)
+                });
+
+            foreach (var tts in titleToTitleSalutations)
+            {
+                ViewModel.Titles.Add(tts);
+            }
         }
     }
 }

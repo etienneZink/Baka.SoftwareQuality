@@ -1,31 +1,19 @@
 ﻿using System;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Runtime.CompilerServices;
 using System.Windows.Input;
 using Baka.ContactSplitter.frontendModel;
 using Baka.ContactSplitter.services.interfaces;
-using JetBrains.Annotations;
 
 namespace Baka.ContactSplitter.viewModel
 {
-    public class TitleWindowViewModel : INotifyPropertyChanged
+    public class TitleWindowViewModel : BaseViewModel
     {
-        
-
-        public event PropertyChangedEventHandler PropertyChanged;
 
         public ICommand AddOrUpdateCommand { get; set; }
         public ICommand DeleteCommand { get; set; }
 
         public ITitleService TitleService { get; set; }
 
-
-        [NotifyPropertyChangedInvocator]
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
 
         public ObservableCollection<TitleToTitleSalutation> Titles { get; set; } = new();
 
@@ -34,12 +22,7 @@ namespace Baka.ContactSplitter.viewModel
         public string TitleSalutation
         {
             get => _titleSalutation;
-            set
-            {
-                if (_titleSalutation == value) return;
-                _titleSalutation = value;
-                OnPropertyChanged(nameof(TitleSalutation));
-            }
+            set => SetField(ref _titleSalutation, value);
         }
 
         private string _title;
@@ -47,12 +30,7 @@ namespace Baka.ContactSplitter.viewModel
         public string Title
         {
             get => _title;
-            set
-            {
-                if (_title == value) return;
-                _title = value;
-                OnPropertyChanged(nameof(Title));
-            }
+            set => SetField(ref _title, value);
         }
 
 
@@ -63,9 +41,7 @@ namespace Baka.ContactSplitter.viewModel
             get => _selectedTitleIndex;
             set
             {
-                if (_selectedTitleIndex == value) return;
-                _selectedTitleIndex = value;
-                OnPropertyChanged(nameof(SelectedTitleIndex));
+                SetField(ref _selectedTitleIndex, value);
                 if (SelectedTitleIndex >= 0 && SelectedTitleIndex < Titles.Count)
                 {
                     Title = Titles[_selectedTitleIndex].Title;
