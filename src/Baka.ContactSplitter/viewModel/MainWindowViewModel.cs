@@ -12,7 +12,7 @@ namespace Baka.ContactSplitter.viewModel
 {
     public class MainWindowViewModel : INotifyPropertyChanged
     {
-        private IParserService ParserService { get; init; }
+        private IParserService ParserService { get; }
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -54,6 +54,7 @@ namespace Baka.ContactSplitter.viewModel
             {
                 if (_selectedContactIndex == value) return;
                 _selectedContactIndex = value;
+                OnPropertyChanged(nameof(SelectedContactIndex));
                 //ToDo
             }
         }

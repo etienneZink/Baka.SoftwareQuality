@@ -7,6 +7,7 @@ using System.Reflection;
 using System.Threading.Tasks;
 using System.Windows;
 using Autofac;
+using Baka.ContactSplitter.controller;
 
 namespace Baka.ContactSplitter
 {
@@ -26,10 +27,11 @@ namespace Baka.ContactSplitter
                 .As(t => t.GetInterfaces().FirstOrDefault(i => i.Name == "I" + t.Name));
             //add views and viewmodels to dependency injection
             containerBuilder.RegisterAssemblyTypes(Assembly.GetExecutingAssembly())
-                .Where(t => t.IsClass && (t.Namespace.Contains("view") || t.Namespace.Contains("viewModel")));
+                .Where(t => t.IsClass && (t.Namespace.Contains("view") || t.Namespace.Contains("viewModel") || t.Namespace.Contains("controller")));
             containerBuilder.RegisterInstance(this);
 
             Container = containerBuilder.Build();
+            Container.Resolve<TitleController>().Initialize();
         }
     }
 }
