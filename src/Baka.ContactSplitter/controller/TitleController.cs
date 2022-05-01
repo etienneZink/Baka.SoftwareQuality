@@ -1,4 +1,6 @@
-﻿using Baka.ContactSplitter.framework;
+﻿using System.Linq;
+using Baka.ContactSplitter.framework;
+using Baka.ContactSplitter.frontendModel;
 using Baka.ContactSplitter.services.interfaces;
 using Baka.ContactSplitter.view;
 using Baka.ContactSplitter.viewModel;
@@ -24,7 +26,11 @@ namespace Baka.ContactSplitter.controller
 
             foreach (var title in TitleService.GetTitles())
             {
-                ViewModel.Titles.Add(title);
+                ViewModel.Titles.Add(new TitleToTitleSalutation
+                {
+                    Title = title,
+                    TitleSalutation = TitleService.GetTitleSalutation(title)
+                });
             }
         }
 
@@ -36,9 +42,19 @@ namespace Baka.ContactSplitter.controller
         public void ExecuteAddOrUpdateCommand(object o)
         {
             TitleService.SaveOrUpdateTitle(ViewModel.Title, ViewModel.TitleSalutation);
-            if (!ViewModel.Titles.Contains(ViewModel.Title))
+
+            if (ViewModel.Titles.All(tts => tts.Title != ViewModel.Title))
             {
-                ViewModel.Titles.Add(ViewModel.Title);
+                ViewModel.Titles.Add(new TitleToTitleSalutation
+                {
+                    Title = View.Title,
+                    TitleSalutation = TitleService.GetTitleSalutation(ViewModel.Title)
+                });
+            }
+            else
+            {
+                var tts = ViewModel.Titles.FirstOrDefault(tts => tts.Title == ViewModel.Title);
+                if(tts is not null) tts.TitleSalutation = ViewModel.TitleSalutation;
             }
 
             ViewModel.Title = string.Empty;
@@ -52,9 +68,9 @@ namespace Baka.ContactSplitter.controller
 
         public void ExecuteDeleteCommand(object o)
         {
-            var title = ViewModel.Titles[ViewModel.SelectedTitleIndex];
+            var tts = ViewModel.Titles[ViewModel.SelectedTitleIndex];
             ViewModel.Titles.RemoveAt(ViewModel.SelectedTitleIndex);
-            TitleService.DeleteTitle(title);
+            TitleService.DeleteTitle(tts.Title);
             ViewModel.Title = string.Empty;
             ViewModel.TitleSalutation = string.Empty;
         }

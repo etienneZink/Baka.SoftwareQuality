@@ -3,6 +3,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows.Input;
+using Baka.ContactSplitter.frontendModel;
 using Baka.ContactSplitter.services.interfaces;
 using JetBrains.Annotations;
 
@@ -26,7 +27,7 @@ namespace Baka.ContactSplitter.viewModel
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        public ObservableCollection<string> Titles { get; set; } = new();
+        public ObservableCollection<TitleToTitleSalutation> Titles { get; set; } = new();
 
         private string _titleSalutation;
 
@@ -67,8 +68,8 @@ namespace Baka.ContactSplitter.viewModel
                 OnPropertyChanged(nameof(SelectedTitleIndex));
                 if (SelectedTitleIndex >= 0 && SelectedTitleIndex < Titles.Count)
                 {
-                    Title = Titles[_selectedTitleIndex];
-                    TitleSalutation = TitleService.GetTitleSalutation(Title);
+                    Title = Titles[_selectedTitleIndex].Title;
+                    TitleSalutation = Titles[_selectedTitleIndex].TitleSalutation;
                 }
                 else
                 {
