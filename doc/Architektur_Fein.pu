@@ -21,6 +21,7 @@ component KontaktSplitter{
             +salutation: string
             +lastName: string
             +firstName: string
+            +gender: Gender
             +titles: IEnumerable<string>
         }
 
@@ -86,5 +87,7 @@ Contact <-- ParserService
 ParseResult <-- ParserService:<<bind>>M::Contact
 
 SalutationService --> Gender
+
+Contact --> Gender
 
 @enduml
