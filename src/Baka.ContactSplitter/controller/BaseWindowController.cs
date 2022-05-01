@@ -6,7 +6,7 @@ using Baka.ContactSplitter.viewModel;
 namespace Baka.ContactSplitter.controller
 {
     public class BaseWindowController<TView, TViewModel> where TView : BaseWindow<TViewModel>
-                                             where TViewModel : BaseViewModel
+                                                         where TViewModel : BaseViewModel
     {
         protected TView View { get; }
         protected TViewModel ViewModel { get; }
@@ -15,6 +15,7 @@ namespace Baka.ContactSplitter.controller
         {
             View = view;
             ViewModel = viewModel;
+            View.DataContext = ViewModel;
         }
 
         public virtual bool? Initialize() => View.ShowDialog();

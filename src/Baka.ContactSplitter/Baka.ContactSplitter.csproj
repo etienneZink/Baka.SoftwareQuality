@@ -25,4 +25,20 @@
     <Folder Include="framework\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Compile Update="view\SalutationWindow.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+	<Compile Update="view\TitleWindow.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="view\SalutationWindow.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+      <SubType>Designer</SubType>
+    </Page>
+  </ItemGroup>
+
 </Project>

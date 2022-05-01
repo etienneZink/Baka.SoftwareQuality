@@ -11,10 +11,7 @@ namespace Baka.ContactSplitter.viewModel
 
         public ICommand AddOrUpdateCommand { get; set; }
         public ICommand DeleteCommand { get; set; }
-
-        public ITitleService TitleService { get; set; }
-
-
+        
         public ObservableCollection<TitleToTitleSalutation> Titles { get; set; } = new();
 
         private string _titleSalutation;

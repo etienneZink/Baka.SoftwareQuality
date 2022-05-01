@@ -15,7 +15,6 @@ namespace Baka.ContactSplitter.controller
         {
             ViewModel.AddOrUpdateCommand = new RelayCommand(ExecuteAddOrUpdateCommand, CanExecuteAddOrUpdateCommand);
             ViewModel.DeleteCommand = new RelayCommand(ExecuteDeleteCommand, CanExecuteDeleteCommand);
-            ViewModel.TitleService = titleService;
             TitleService = titleService;
             LoadTitlesToTitleSalutations();
         }

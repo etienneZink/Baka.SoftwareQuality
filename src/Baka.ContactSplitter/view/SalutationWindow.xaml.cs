@@ -18,9 +18,9 @@ namespace Baka.ContactSplitter.view
     /// <summary>
     /// Interaction logic for TitleWindow.xaml
     /// </summary>
-    public partial class TitleWindow : BaseWindow<TitleWindowViewModel>
+    public partial class SalutationWindow : BaseWindow<SalutationWindowViewModel>
     {
-        public TitleWindow()
+        public SalutationWindow()
         {
             InitializeComponent();
         }
