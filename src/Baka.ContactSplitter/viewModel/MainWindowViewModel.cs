@@ -27,6 +27,7 @@ namespace Baka.ContactSplitter.viewModel
             }
 
             SalutationService = salutationService;
+            Contacts.CollectionChanged += (sender, args) => OnPropertyChanged(nameof(ViewModelContacts));
         }
 
         private ObservableCollection<Contact> _Contacts;
@@ -47,7 +48,7 @@ namespace Baka.ContactSplitter.viewModel
             set => SetField(ref _selectedContactIndex, value);
         }
 
-        public IEnumerable<ViewModelContact> _ViewModelContacts
+        public IEnumerable<ViewModelContact> ViewModelContacts
         {
             get
             {

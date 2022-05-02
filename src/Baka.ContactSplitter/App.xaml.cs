@@ -33,7 +33,7 @@ namespace Baka.ContactSplitter
             containerBuilder.RegisterInstance(this);
 
             Container = containerBuilder.Build();
-            Container.Resolve<TitleController>().Initialize();
+            Container.Resolve<MainWindowController>().Initialize();
         }
     }
 }
