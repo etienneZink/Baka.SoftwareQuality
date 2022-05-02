@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Baka.ContactSplitter.viewModel;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -18,7 +19,7 @@ namespace Baka.ContactSplitter.view
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class MainWindow : BaseWindow<MainWindowViewModel>
     {
         public MainWindow()
         {

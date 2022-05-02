@@ -1,48 +1,42 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Windows.Input;
 using Baka.ContactSplitter.framework;
+using Baka.ContactSplitter.frontendModel;
 using Baka.ContactSplitter.model;
 using Baka.ContactSplitter.services.interfaces;
-using JetBrains.Annotations;
 
 namespace Baka.ContactSplitter.viewModel
 {
-    public class MainWindowViewModel : INotifyPropertyChanged
+    public class MainWindowViewModel : BaseViewModel
     {
-        private IParserService ParserService { get; }
+        public ISalutationService SalutationService { get; }
 
-        public event PropertyChangedEventHandler PropertyChanged;
+        public ICommand AddCommand { get; set; }
+        public ICommand DeleteCommand { get; set; }
 
-        public ICommand AddCommand => new RelayCommand(ExecuteAddCommand, CanExecuteAddCommand);
-        public ICommand DeleteCommand => new RelayCommand(ExecuteDeleteCommand, CanExecuteDeleteCommand);
-
-        public MainWindowViewModel(IParserService parserService)
+        public MainWindowViewModel(ISalutationService salutationService)
         {
-            ParserService = parserService;
+            if (salutationService is null)
+            {
+                throw new ArgumentNullException(nameof(salutationService));
+            }
+
+            SalutationService = salutationService;
         }
 
-
-        [NotifyPropertyChangedInvocator]
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-
-        public ObservableCollection<Contact> Contacts { get; set; } = new();
+        private ObservableCollection<Contact> _Contacts;
+        public ObservableCollection<Contact> Contacts => _Contacts ??= new ObservableCollection<Contact>();
 
         private string _input;
         public string Input
         {
             get => _input;
-            set
-            {
-                if (_input == value) return;
-                OnPropertyChanged(nameof(Input));
-                _input = value;
-            }
+            set => SetField(ref _input, value);
         }
 
         private int _selectedContactIndex = -1;
@@ -50,35 +44,27 @@ namespace Baka.ContactSplitter.viewModel
         public int SelectedContactIndex
         {
             get => _selectedContactIndex;
-            set
+            set => SetField(ref _selectedContactIndex, value);
+        }
+
+        public IEnumerable<ViewModelContact> _ViewModelContacts
+        {
+            get
             {
-                if (_selectedContactIndex == value) return;
-                _selectedContactIndex = value;
-                OnPropertyChanged(nameof(SelectedContactIndex));
-                //ToDo
+                return Contacts.Select(contact =>
+                {
+                    var titles = contact.Titles.Count > 0 ? contact.Titles : new[] { string.Empty };
+
+                    return new ViewModelContact
+                    {
+                        FirstName = contact.FirstName,
+                        LastName = contact.LastName,
+                        Salutation = contact.Salutation,
+                        Titles = titles.Aggregate((current, title) => $"{ current } { title }"),
+                        Gender = SalutationService.GetGender(contact.Salutation).ToString()
+                    };
+                });
             }
-        }
-
-        public void ExecuteAddCommand(object o)
-        {
-            var parseResult = ParserService.ParseContact(Input);
-            Contacts.Add(parseResult.Model);
-        }
-
-        public bool CanExecuteAddCommand(object o)
-        {
-            return Input is not null && ParserService.ParseContact(Input) is not null &&
-                   ParserService.ParseContact(Input).Successful;
-        }
-
-        public void ExecuteDeleteCommand(object o)
-        {
-            Contacts.RemoveAt(SelectedContactIndex);
-        }
-
-        public bool CanExecuteDeleteCommand(object o)
-        {
-            return SelectedContactIndex != -1;
         }
     }
 }
