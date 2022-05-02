@@ -1,4 +1,5 @@
-﻿namespace Baka.ContactSplitter.frontendModel
+﻿
+namespace Baka.ContactSplitter.frontendModel
 {
     public class ViewModelContact
     {
