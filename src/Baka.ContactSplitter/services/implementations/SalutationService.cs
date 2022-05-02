@@ -36,7 +36,7 @@ namespace Baka.ContactSplitter.services.implementations
 
         public IEnumerable<string> GetSalutations() => SalutationsToGender.Keys;
 
-        public Gender GetGender(string salutation) => SalutationsToGender.ContainsKey(salutation) ?  SalutationsToGender[salutation]: Gender.Neutral;
+        public Gender GetGender(string salutation) => salutation is not null && SalutationsToGender.ContainsKey(salutation) ?  SalutationsToGender[salutation]: Gender.Neutral;
 
         /// <summary>
         /// Tries to read the salutations from the JSON in SalutationJsonPath.

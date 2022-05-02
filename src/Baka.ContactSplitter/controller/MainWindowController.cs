@@ -2,6 +2,7 @@
 using Baka.ContactSplitter.services.interfaces;
 using Baka.ContactSplitter.view;
 using Baka.ContactSplitter.viewModel;
+using System.Linq;
 
 namespace Baka.ContactSplitter.controller
 {
@@ -9,17 +10,23 @@ namespace Baka.ContactSplitter.controller
     {
         private IParserService ParserService { get; }
 
-        public MainWindowController(MainWindow view, MainWindowViewModel viewModel, IParserService parserService): base(view, viewModel)
+        private ISalutationService SalutationService { get; }
+
+        public MainWindowController(MainWindow view, MainWindowViewModel viewModel, IParserService parserService, ISalutationService salutationService): base(view, viewModel)
         {
             ViewModel.AddCommand = new RelayCommand(ExecuteAddCommand, CanExecuteAddCommand);
             ViewModel.DeleteCommand = new RelayCommand(ExecuteDeleteCommand, CanExecuteDeleteCommand);
+            ViewModel.InputChanged += OnInputChanged;
             ParserService = parserService;
+            SalutationService = salutationService;
         }
 
         public void ExecuteAddCommand(object o)
         {
             var parseResult = ParserService.ParseContact(ViewModel.Input);
             ViewModel.Contacts.Add(parseResult.Model);
+
+            ViewModel.Input = string.Empty;
         }
 
         public bool CanExecuteAddCommand(object o)
@@ -36,6 +43,30 @@ namespace Baka.ContactSplitter.controller
         public bool CanExecuteDeleteCommand(object o)
         {
             return ViewModel.SelectedContactIndex != -1;
+        }
+
+        private void OnInputChanged(string input)
+        {
+            var parseResult = ParserService.ParseContact(ViewModel.Input);
+
+            if (parseResult.Successful)
+            {
+                var titles = parseResult.Model.Titles.Count > 0 ? parseResult.Model.Titles : new[] { string.Empty };
+
+                ViewModel.ParsedSalutation = parseResult.Model.Salutation;
+                ViewModel.ParsedTitles = titles.Aggregate((current, title) => $"{ current } { title }");
+                ViewModel.ParsedFirstName = parseResult.Model.FirstName;
+                ViewModel.ParsedLastName = parseResult.Model.LastName;
+                ViewModel.ParsedGender = SalutationService.GetGender(parseResult.Model.Salutation).ToString();
+            }
+            else
+            {
+                ViewModel.ParsedSalutation = null;
+                ViewModel.ParsedTitles = null;
+                ViewModel.ParsedFirstName = null;
+                ViewModel.ParsedLastName = null;
+                ViewModel.ParsedGender = null;
+            }
         }
     }
 }

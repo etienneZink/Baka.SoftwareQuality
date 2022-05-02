@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Windows;
 using System.Windows.Input;
 using Baka.ContactSplitter.framework;
 using Baka.ContactSplitter.frontendModel;
@@ -14,6 +15,10 @@ namespace Baka.ContactSplitter.viewModel
 {
     public class MainWindowViewModel : BaseViewModel
     {
+        public delegate void InputChange(string input);
+
+        public event InputChange InputChanged;
+
         public ISalutationService SalutationService { get; }
 
         public ICommand AddCommand { get; set; }
@@ -37,7 +42,12 @@ namespace Baka.ContactSplitter.viewModel
         public string Input
         {
             get => _input;
-            set => SetField(ref _input, value);
+            set 
+            { 
+                SetField(ref _input, value);
+
+                InputChanged?.Invoke(_input);
+            }
         }
 
         private int _selectedContactIndex = -1;
@@ -67,5 +77,47 @@ namespace Baka.ContactSplitter.viewModel
                 });
             }
         }
+
+        private string _ParsedSalutation;
+        public string ParsedSalutation
+        {
+            get => _ParsedSalutation;
+            set
+            {
+                SetField(ref _ParsedSalutation, value);
+
+                OnPropertyChanged(nameof(ParsedContactDetailsVisible));
+            }
+        }
+
+        private string _ParsedTitles;
+        public string ParsedTitles
+        {
+            get => _ParsedTitles;
+            set => SetField(ref _ParsedTitles, value);
+        }
+
+        private string _ParsedFirstName;
+        public string ParsedFirstName
+        {
+            get => _ParsedFirstName;
+            set => SetField(ref _ParsedFirstName, value);
+        }
+
+        private string _ParsedLastName;
+        public string ParsedLastName
+        {
+            get => _ParsedLastName;
+            set => SetField(ref _ParsedLastName, value);
+        }
+
+        private string _ParsedGender;
+        public string ParsedGender
+        {
+            get => _ParsedGender;
+            set => SetField(ref _ParsedGender, value);
+        }
+
+        public Visibility ParsedContactDetailsVisible => ParsedSalutation is null ? Visibility.Collapsed : Visibility.Visible;
     }
 }

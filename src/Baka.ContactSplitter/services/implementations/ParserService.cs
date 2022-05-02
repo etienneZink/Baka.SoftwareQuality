@@ -60,7 +60,7 @@ namespace Baka.ContactSplitter.services.implementations
             var regex = ContactPattern.Replace("<PossibleSalutations>", possibleSalutationsRegex);
             regex = regex.Replace("<PossibleTitles>", possibleTitlesRegex);
             regex = regex.Replace("<FirstNamePattern>", @"[A-Z][a-z]*((\s+|\-)[A-Z][a-z]*)*");
-            regex = regex.Replace("<LastNamePattern>", @"([a-z]+\s+)*[A-Z][a-z]*([-][A-Z][a-z]*)?");
+            regex = regex.Replace("<LastNamePattern>", @"([a-z]+\s+)*[A-Z][a-z]*([A-Z][a-z]*)?([-][A-Z][a-z]*([A-Z][a-z]*)?)?");
 
             var matchResult = Regex.Match(contactString, regex);
 
