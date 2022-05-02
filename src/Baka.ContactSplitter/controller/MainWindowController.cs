@@ -1,6 +1,6 @@
 ﻿using System;
+using Autofac;
 using Baka.ContactSplitter.framework;
-using Baka.ContactSplitter.model;
 using Baka.ContactSplitter.services.interfaces;
 using Baka.ContactSplitter.view;
 using Baka.ContactSplitter.viewModel;
@@ -10,12 +10,9 @@ namespace Baka.ContactSplitter.controller
     public class MainWindowController: BaseWindowController<MainWindow, MainWindowViewModel>
     {
         public IParserService ParserService { get; }
-        private TitleController TitleController { get; }
+        private App App { get; }
 
-        private SalutationController SalutationController { get; }
-
-        public MainWindowController(MainWindow view, MainWindowViewModel viewModel, IParserService parserService, TitleController titleController,
-            SalutationController salutationController) : base(view, viewModel)
+        public MainWindowController(MainWindow view, MainWindowViewModel viewModel, IParserService parserService, App app) : base(view, viewModel)
         {
             ViewModel.AddCommand = new RelayCommand(ExecuteAddCommand, CanExecuteAddCommand);
             ViewModel.DeleteCommand = new RelayCommand(ExecuteDeleteCommand, CanExecuteDeleteCommand);
@@ -29,29 +26,22 @@ namespace Baka.ContactSplitter.controller
 
             ParserService = parserService;
 
-            if (titleController is null)
+            if (app is null)
             {
-                throw new ArgumentNullException(nameof(titleController));
+                throw new ArgumentNullException(nameof(app));
             }
 
-            TitleController = titleController;
-
-            if (salutationController is null)
-            {
-                throw new ArgumentNullException(nameof(salutationController));
-            }
-
-            SalutationController = salutationController;
+            App = app;
         }
 
         public void ExecuteTitlesCommand(object o)
         {
-            TitleController.Initialize();
+            App.Container.Resolve<TitleController>().Show();
         }
 
         public void ExecuteSalutationsCommand(object o)
         {
-            SalutationController.Initialize();
+            App.Container.Resolve<SalutationController>().Show();
         }
 
         public void ExecuteAddCommand(object o)
@@ -61,6 +51,8 @@ namespace Baka.ContactSplitter.controller
             newContact.FirstName = ViewModel.SelectedContactFirstName;
             newContact.LastName = ViewModel.SelectedContactLastName;
             ViewModel.Contacts.Add(newContact);
+            ViewModel.Input = string.Empty;
+            ViewModel.ResetPreview();
         }
 
         public bool CanExecuteAddCommand(object o)

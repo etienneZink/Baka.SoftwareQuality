@@ -44,6 +44,7 @@ namespace Baka.ContactSplitter.viewModel
             }
 
             ParserService = parserService;
+            Contacts.CollectionChanged += (sender, args) => OnPropertyChanged(nameof(ViewModelContacts));
         }
 
         private ObservableCollection<Contact> _contacts;
@@ -65,6 +66,12 @@ namespace Baka.ContactSplitter.viewModel
             set
             {
                 SetField(ref _input, value);
+                if (Input == string.Empty)
+                {
+                    ErrorMessage = string.Empty;
+                    return;
+                }
+
                 var parseResult = ParserService.ParseContact(Input);
                 if (parseResult.Successful)
                 {
@@ -81,12 +88,7 @@ namespace Baka.ContactSplitter.viewModel
                 }
                 else
                 {
-                    SelectedContactSalutation = string.Empty;
-                    SelectedContactTitles = string.Empty;
-                    SelectedContactFirstName = string.Empty;
-                    SelectedContactLastName = string.Empty;
-                    SelectedContactGender = string.Empty;
-                    SelectedContactLetterSalutation = string.Empty;
+                    ResetPreview();
                     ErrorMessage = parseResult.ErrorMessages[0];
                 }
             }
@@ -99,6 +101,7 @@ namespace Baka.ContactSplitter.viewModel
             get => _selectedContactIndex;
             set
             {
+                SetField(ref _selectedContactIndex, value);
                 if (SelectedContactIndex >= 0 && SelectedContactIndex < Contacts.Count)
                 {
                     SelectedContactSalutation = ViewModelContacts[SelectedContactIndex].Salutation;
@@ -111,12 +114,7 @@ namespace Baka.ContactSplitter.viewModel
                 }
                 else
                 {
-                    SelectedContactSalutation = string.Empty;
-                    SelectedContactTitles = string.Empty;
-                    SelectedContactFirstName = string.Empty;
-                    SelectedContactLastName = string.Empty;
-                    SelectedContactGender = string.Empty;
-                    SelectedContactLetterSalutation = string.Empty;
+                    ResetPreview();
                 }
             }
         }
@@ -169,7 +167,6 @@ namespace Baka.ContactSplitter.viewModel
             set => SetField(ref _selectedContactLetterSalutation, value);
         }
         
-        //ToDo
         public ObservableCollection<ViewModelContact> ViewModelContacts
         {
             get
@@ -188,6 +185,17 @@ namespace Baka.ContactSplitter.viewModel
                     };
                 }));
             }
+        }
+
+        public void ResetPreview()
+        {
+            SelectedContactSalutation = string.Empty;
+            SelectedContactTitles = string.Empty;
+            SelectedContactFirstName = string.Empty;
+            SelectedContactLastName = string.Empty;
+            SelectedContactGender = string.Empty;
+            SelectedContactLetterSalutation = string.Empty;
+            ErrorMessage = string.Empty;
         }
     }
 }

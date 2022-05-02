@@ -28,12 +28,14 @@ namespace Baka.ContactSplitter
                 .SingleInstance();
             //add views and viewmodels to dependency injection
             containerBuilder.RegisterAssemblyTypes(Assembly.GetExecutingAssembly())
-                .Where(t => t.IsClass && (t.Namespace.Contains("view") || t.Namespace.Contains("viewModel") || t.Namespace.Contains("controller")))
-                .SingleInstance();
+                .Where(t => t.IsClass && (t.Namespace.Contains("view") || t.Namespace.Contains("viewModel") ||
+                                          t.Namespace.Contains("controller")));
+
+            ShutdownMode = ShutdownMode.OnMainWindowClose;
             containerBuilder.RegisterInstance(this);
 
             Container = containerBuilder.Build();
-            Container.Resolve<MainWindowController>().Initialize();
+            Container.Resolve<MainWindowController>().Show();
         }
     }
 }

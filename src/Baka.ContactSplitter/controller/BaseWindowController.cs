@@ -18,6 +18,6 @@ namespace Baka.ContactSplitter.controller
             View.DataContext = ViewModel;
         }
 
-        public virtual bool? Initialize() => View.ShowDialog();
+        public virtual bool? Show() => View.ShowDialog();
     }
 }
