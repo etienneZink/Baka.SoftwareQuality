@@ -20,6 +20,8 @@ namespace Baka.ContactSplitter
 
         protected override void OnStartup(StartupEventArgs e)
         {
+            ShutdownMode = ShutdownMode.OnMainWindowClose;
+
             ContainerBuilder containerBuilder = new ContainerBuilder();
             //add services as service interfaces to dependency injection
             containerBuilder.RegisterAssemblyTypes(Assembly.GetExecutingAssembly())
@@ -30,8 +32,7 @@ namespace Baka.ContactSplitter
             containerBuilder.RegisterAssemblyTypes(Assembly.GetExecutingAssembly())
                 .Where(t => t.IsClass && (t.Namespace.Contains("view") || t.Namespace.Contains("viewModel") ||
                                           t.Namespace.Contains("controller")));
-
-            ShutdownMode = ShutdownMode.OnMainWindowClose;
+            //add the app to dependency injection
             containerBuilder.RegisterInstance(this);
 
             Container = containerBuilder.Build();

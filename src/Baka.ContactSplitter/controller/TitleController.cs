@@ -7,6 +7,10 @@ using Baka.ContactSplitter.viewModel;
 
 namespace Baka.ContactSplitter.controller
 {
+    /// <summary>
+    /// Class which is used as the controller for the TitleWindowViewModel and the TitleWindow.
+    /// This controller combines these two and defines the logic for methods of the TitleWindowViewModel.
+    /// </summary>
     public class TitleController: BaseWindowController<TitleWindow, TitleWindowViewModel>
     {
         private ITitleService TitleService { get; }
@@ -29,6 +33,7 @@ namespace Baka.ContactSplitter.controller
 
         public bool CanExecuteAddOrUpdateCommand(object o)
         {
+            //add can be executed, if the title and titleSalutation text is not null
             return ViewModel.Title is not null && ViewModel.TitleSalutation is not null;
         }
 
@@ -43,9 +48,11 @@ namespace Baka.ContactSplitter.controller
 
         public bool CanExecuteDeleteCommand(object o)
         {
+            //delete can be executed, if a title is selected (index != -1)
             return ViewModel.SelectedTitleIndex != -1;
         }
 
+        //fetches all titles and titleSalutations from the TitleService and adds them to the list of TitleToTitleSalutation
         private void LoadTitlesToTitleSalutations()
         {
             ViewModel.Titles.Clear();
