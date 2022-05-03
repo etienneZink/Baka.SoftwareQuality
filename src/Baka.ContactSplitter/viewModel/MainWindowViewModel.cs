@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Input;
@@ -9,6 +8,9 @@ using Baka.ContactSplitter.services.interfaces;
 
 namespace Baka.ContactSplitter.viewModel
 {
+    /// <summary>
+    /// Class which is used as a viewModel for the MainWindow.
+    /// </summary>
     public class MainWindowViewModel : BaseViewModel
     {
         public ISalutationService SalutationService { get; }
@@ -47,19 +49,20 @@ namespace Baka.ContactSplitter.viewModel
             Contacts.CollectionChanged += (sender, args) => OnPropertyChanged(nameof(ViewModelContacts));
         }
 
+        // property which is used to store the saved Contact
         private ObservableCollection<Contact> _contacts;
         public ObservableCollection<Contact> Contacts => _contacts ??= new ObservableCollection<Contact>();
 
+        // property which is used to display an error message
         private string _errorMessage;
-
         public string ErrorMessage
         {
             get => _errorMessage;
             set => SetField(ref _errorMessage, value);
         }
 
+        // property which represents the input of an user
         private string _input;
-
         public string Input
         {
             get => _input;
@@ -94,8 +97,8 @@ namespace Baka.ContactSplitter.viewModel
             }
         }
 
+        // property which represents the index of the selected contact in the list of ViewModeContact 
         private int _selectedContactIndex = -1;
-
         public int SelectedContactIndex
         {
             get => _selectedContactIndex;
@@ -119,54 +122,55 @@ namespace Baka.ContactSplitter.viewModel
             }
         }
 
+        // property used in the preview for the salutation
         private string _selectedContactSalutation;
-
         public string SelectedContactSalutation
         {
             get => _selectedContactSalutation;
             set => SetField(ref _selectedContactSalutation, value);
         }
 
+        // property used in the preview for the titles
         private string _selectedContactTitles;
-
         public string SelectedContactTitles
         {
             get => _selectedContactTitles;
             set => SetField(ref _selectedContactTitles, value);
         }
 
+        // property used in the preview for the firstname
         private string _selectedContactFirstName;
-
         public string SelectedContactFirstName
         {
             get => _selectedContactFirstName;
             set => SetField(ref _selectedContactFirstName, value);
         }
 
+        // property used in the preview for the lastname
         private string _selectedContactLastName;
-
         public string SelectedContactLastName
         {
             get => _selectedContactLastName;
             set => SetField(ref _selectedContactLastName, value);
         }
 
+        // property used in the preview for the gender
         private string _selectedContactGender;
-
         public string SelectedContactGender
         {
             get => _selectedContactGender;
             set => SetField(ref _selectedContactGender, value);
         }
 
+        // property used in the preview for the letter salutation
         private string _selectedContactLetterSalutation;
-
         public string SelectedContactLetterSalutation
         {
             get => _selectedContactLetterSalutation;
             set => SetField(ref _selectedContactLetterSalutation, value);
         }
-        
+
+        // property which is used to view the list of Contact (Contacts) as a list of ViewModelContact
         public ObservableCollection<ViewModelContact> ViewModelContacts
         {
             get

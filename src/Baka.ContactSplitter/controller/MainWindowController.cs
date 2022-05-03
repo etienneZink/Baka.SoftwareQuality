@@ -7,6 +7,10 @@ using Baka.ContactSplitter.viewModel;
 
 namespace Baka.ContactSplitter.controller
 {
+    /// <summary>
+    /// Class which is used as the controller for the MainWindowViewModel and the MainWindow.
+    /// This controller combines these two and defines the logic for methods of the MainWindowViewModel.
+    /// </summary>
     public class MainWindowController: BaseWindowController<MainWindow, MainWindowViewModel>
     {
         public IParserService ParserService { get; }
@@ -57,6 +61,7 @@ namespace Baka.ContactSplitter.controller
 
         public bool CanExecuteAddCommand(object o)
         {
+            //add can be executed, if the input can be parsed successfully
             return ViewModel.Input is not null && ParserService.ParseContact(ViewModel.Input) is not null &&
                    ParserService.ParseContact(ViewModel.Input).Successful;
         }
@@ -68,6 +73,7 @@ namespace Baka.ContactSplitter.controller
 
         public bool CanExecuteDeleteCommand(object o)
         {
+            //delete can be executed, if a contact is selected (index != -1)
             return ViewModel.SelectedContactIndex != -1;
         }
     }
