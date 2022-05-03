@@ -8,6 +8,10 @@ using Baka.ContactSplitter.viewModel;
 
 namespace Baka.ContactSplitter.controller
 {
+    /// <summary>
+    /// Class which is used as the controller for the SalutationWindowViewModel and the SalutationWindow.
+    /// This controller combines these two and defines the logic for methods of the SalutationWindowViewModel.
+    /// </summary>
     public class SalutationController: BaseWindowController<SalutationWindow, SalutationWindowViewModel>
     {
         private ISalutationService SalutationService { get; }
@@ -30,6 +34,7 @@ namespace Baka.ContactSplitter.controller
 
         public bool CanExecuteAddOrUpdateCommand(object o)
         {
+            //add can be executed, if the salutation text is not null
             return ViewModel.Salutation is not null;
         }
 
@@ -44,9 +49,11 @@ namespace Baka.ContactSplitter.controller
 
         public bool CanExecuteDeleteCommand(object o)
         {
+            //delete can be executed, if a salutation is selected (index != -1)
             return ViewModel.SelectedSalutationIndex != -1;
         }
 
+        //fetches all salutations and genders from the SalutationService and adds them to the list of SalutationToGender
         private void LoadSalutationsToGenders()
         {
             ViewModel.Salutations.Clear();

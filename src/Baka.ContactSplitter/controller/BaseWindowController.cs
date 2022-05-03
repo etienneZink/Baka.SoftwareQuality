@@ -1,10 +1,13 @@
-﻿using System.Windows;
-using System.Windows.Navigation;
-using Baka.ContactSplitter.view;
+﻿using Baka.ContactSplitter.view;
 using Baka.ContactSplitter.viewModel;
 
 namespace Baka.ContactSplitter.controller
 {
+    /// <summary>
+    /// Base class for all controllers.
+    /// </summary>
+    /// <typeparam name="TView"></typeparam>
+    /// <typeparam name="TViewModel"></typeparam>
     public class BaseWindowController<TView, TViewModel> where TView : BaseWindow<TViewModel>
                                                          where TViewModel : BaseViewModel
     {

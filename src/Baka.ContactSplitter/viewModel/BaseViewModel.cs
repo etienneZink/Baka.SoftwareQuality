@@ -5,6 +5,9 @@ using JetBrains.Annotations;
 
 namespace Baka.ContactSplitter.viewModel
 {
+    /// <summary>
+    /// Base class for all viewModels.
+    /// </summary>
     public class BaseViewModel : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
