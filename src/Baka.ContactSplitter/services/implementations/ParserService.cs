@@ -91,14 +91,12 @@ namespace Baka.ContactSplitter.services.implementations
             var lastName = Regex.Split(matchResult.Groups[LastName].Value, @"\s+")
                 .Where(s => s != string.Empty)
                 .Aggregate((current, lastName) => $"{current} {lastName}");
-            var gender = SalutationService.GetGender(salutation);
 
             parseResult.Model = new Contact
             {
                 Salutation = salutation,
                 FirstName = firstName,
-                LastName = lastName,
-                Gender = gender
+                LastName = lastName
             };
 
             var orderedTitlesList = TitleService

@@ -9,12 +9,10 @@ namespace Baka.ContactSplitter.model
     {
         public string Salutation { get; init; }
 
-        public string LastName { get; init; }
+        public string LastName { get; set; }
 
-        public string FirstName { get; init; }
-
-        public Gender Gender { get; init; }
-
+        public string FirstName { get; set; }
+        
         private IList<string> _Titles;
         /// <summary>
         /// A contact can have zero or many titles.

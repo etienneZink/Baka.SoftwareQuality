@@ -10,17 +10,17 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Baka.ContactSplitter.viewModel;
 
-namespace Baka.ContactSplitter
+namespace Baka.ContactSplitter.view
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// Interaction logic for TitleWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class SalutationWindow : BaseWindow<SalutationWindowViewModel>
     {
-        public MainWindow()
+        public SalutationWindow()
         {
             InitializeComponent();
         }
