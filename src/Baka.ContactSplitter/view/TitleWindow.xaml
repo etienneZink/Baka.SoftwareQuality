@@ -29,12 +29,12 @@
             </ListBox.ItemTemplate>
         </ListBox>
                 <StackPanel Orientation="Horizontal" Grid.Column="0" Grid.Row="1">
-            <Button Content="Hinzufügen oder Updaten" Width="150" Margin="5" Command="{Binding AddOrUpdateCommand}"/>
-            <Button Content="Entfernen" Width="150" Margin ="5" Command="{Binding DeleteCommand}"/>
-            <Label Content="Titel:"/>
-            <TextBox Width="150" Margin ="5" Text="{Binding Title, UpdateSourceTrigger=PropertyChanged}"/>
-            <Label Content="Titel Briefanrede:"/>
-            <TextBox Width="150" Margin ="5" Text="{Binding TitleSalutation, UpdateSourceTrigger=PropertyChanged}"/>
+            <Button VerticalAlignment="Center" Content="Hinzufügen oder Updaten" Width="150" Margin="5" Command="{Binding AddOrUpdateCommand}"/>
+            <Button VerticalAlignment="Center" Content="Entfernen" Width="150" Margin ="5" Command="{Binding DeleteCommand}"/>
+            <Label VerticalAlignment="Center" Content="Titel:"/>
+            <TextBox VerticalAlignment="Center" Width="150" Margin ="5" Text="{Binding Title, UpdateSourceTrigger=PropertyChanged}"/>
+            <Label VerticalAlignment="Center" Content="Titel Briefanrede:"/>
+            <TextBox VerticalAlignment="Center" Width="150" Margin ="5" Text="{Binding TitleSalutation, UpdateSourceTrigger=PropertyChanged}"/>
         </StackPanel>
     </Grid>
 </view:BaseWindow>

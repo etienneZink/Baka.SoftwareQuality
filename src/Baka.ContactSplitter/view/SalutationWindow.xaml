@@ -29,12 +29,12 @@
             </ListBox.ItemTemplate>
         </ListBox>
         <StackPanel Orientation="Horizontal" Grid.Column="0" Grid.Row="1">
-            <Button Content="Hinzufügen oder Updaten" Width="150" Margin="5" Command="{Binding AddOrUpdateCommand}"/>
-            <Button Content="Entfernen" Width="150" Margin ="5" Command="{Binding DeleteCommand}"/>
-            <Label Content="Anrede:"/>
-            <TextBox Width="150" Margin ="5" Text="{Binding Salutation, UpdateSourceTrigger=PropertyChanged}"/>
-            <Label Content="Geschlecht:"/>
-            <ComboBox Width="150" Margin ="5" ItemsSource="{Binding Path=Genders}" SelectedItem="{Binding Path=Gender}"/>
+            <Button VerticalAlignment="Center" Content="Hinzufügen oder Updaten" Width="150" Margin="5" Command="{Binding AddOrUpdateCommand}"/>
+            <Button VerticalAlignment="Center" Content="Entfernen" Width="150" Margin ="5" Command="{Binding DeleteCommand}"/>
+            <Label VerticalAlignment="Center" Content="Anrede:"/>
+            <TextBox VerticalAlignment="Center" Width="150" Margin ="5" Text="{Binding Salutation, UpdateSourceTrigger=PropertyChanged}"/>
+            <Label VerticalAlignment="Center" Content="Geschlecht:"/>
+            <ComboBox VerticalAlignment="Center" Width="150" Margin ="5" ItemsSource="{Binding Path=Genders}" SelectedItem="{Binding Path=Gender}"/>
         </StackPanel>
     </Grid>
 </view:BaseWindow>
