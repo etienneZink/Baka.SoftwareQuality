@@ -38,7 +38,14 @@ namespace Baka.ContactSplitter.services.implementations
             var salutations = titleSalutations.Count() != 0 && prefix == "Dear" ? string.Empty : contact.Salutation;
 
             // adds all titleSalutations to the salutation-section of the letterSalutation
-            salutations = titleSalutations.Aggregate(salutations, (current, titleSalutation) => current + $" {titleSalutation}");
+            if (salutations != string.Empty)
+            {
+                salutations = titleSalutations.Aggregate(salutations, (current, titleSalutation) => current + $" {titleSalutation}");
+            }
+            else
+            {
+                salutations = (titleSalutations.Count() > 0 ? titleSalutations : new[] { string.Empty }).Aggregate((current, titleSalutation) => current + $" {titleSalutation}");
+            }
 
             return $"{prefix} {salutations} {contact.FirstName} {contact.LastName}";
         }
