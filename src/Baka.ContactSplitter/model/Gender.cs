@@ -1,4 +1,4 @@
-﻿namespace Baka.ContactSplitter.model
+﻿namespace Baka.ContactSplitter.Model
 {
     /// <summary>
     /// Represents the gender of a contact.

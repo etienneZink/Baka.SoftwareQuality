@@ -2,11 +2,11 @@
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Input;
-using Baka.ContactSplitter.frontendModel;
-using Baka.ContactSplitter.model;
-using Baka.ContactSplitter.services.interfaces;
+using Baka.ContactSplitter.FrontendModel;
+using Baka.ContactSplitter.Model;
+using Baka.ContactSplitter.Services.Interfaces;
 
-namespace Baka.ContactSplitter.viewModel
+namespace Baka.ContactSplitter.ViewModel
 {
     /// <summary>
     /// Class which is used as a viewModel for the MainWindow.

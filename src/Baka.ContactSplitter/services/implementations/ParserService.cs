@@ -1,10 +1,10 @@
-﻿using Baka.ContactSplitter.model;
-using Baka.ContactSplitter.services.interfaces;
+﻿using Baka.ContactSplitter.Model;
+using Baka.ContactSplitter.Services.Interfaces;
 using System;
 using System.Linq;
 using System.Text.RegularExpressions;
 
-namespace Baka.ContactSplitter.services.implementations
+namespace Baka.ContactSplitter.Services.Implementations
 {
     public class ParserService : IParserService
     {

@@ -1,9 +1,9 @@
-﻿<local:BaseWindow x:TypeArguments="viewmodel:MainWindowViewModel" x:Class="Baka.ContactSplitter.view.MainWindow"
+﻿<local:BaseWindow x:TypeArguments="viewmodel:MainWindowViewModel" x:Class="Baka.ContactSplitter.View.MainWindow"
                   xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                   xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                  xmlns:local="clr-namespace:Baka.ContactSplitter.view" 
-                  xmlns:viewmodel="clr-namespace:Baka.ContactSplitter.viewModel"
-                  xmlns:frontendModel="clr-namespace:Baka.ContactSplitter.frontendModel"
+                  xmlns:local="clr-namespace:Baka.ContactSplitter.View" 
+                  xmlns:viewmodel="clr-namespace:Baka.ContactSplitter.ViewModel"
+                  xmlns:frontendModel="clr-namespace:Baka.ContactSplitter.FrontendModel"
                   Title="Kontakt-Splitter" Height="450" Width="800">
     <Grid>
         <Grid.ColumnDefinitions>
@@ -70,32 +70,33 @@
                     </Style>
                 </ListBox.ItemContainerStyle>
             </ListBox>
-            <StackPanel Grid.Row="1" Grid.Column="1">
-                <StackPanel Orientation="Horizontal">
-                    <Label Width="70" Margin="5" Content="Anrede:"/>
-                    <TextBox TextWrapping="Wrap" IsEnabled="False" Width="100" Margin="5" TextAlignment="Left" VerticalAlignment="Center" Text="{Binding SelectedContactSalutation}" />
-                </StackPanel>
-                <StackPanel Orientation="Horizontal">
-                    <Label Width="70" Margin="5" Content="Titel:"/>
-                    <TextBox TextWrapping="Wrap" IsEnabled="False" Width="100" Margin="5" TextAlignment="Left" VerticalAlignment="Center" Text="{Binding SelectedContactTitles}" />
-                </StackPanel>
-                <StackPanel Orientation="Horizontal">
-                    <Label Width="70" Margin="5" Content="Vorname:"/>
-                    <TextBox TextWrapping="Wrap" Width="100" Margin="5" TextAlignment="Left" VerticalAlignment="Center" Text="{Binding SelectedContactFirstName}" />
-                </StackPanel>
-                <StackPanel Orientation="Horizontal">
-                    <Label Width="70" Margin="5" Content="Nachname:"/>
-                    <TextBox TextWrapping="Wrap" Width="100" Margin="5" TextAlignment="Left" VerticalAlignment="Center" Text="{Binding SelectedContactLastName}" />
-                </StackPanel>
-                <StackPanel Orientation="Horizontal">
-                    <Label Width="70" Margin="5" Content="Geschlecht:"/>
-                    <TextBox TextWrapping="Wrap" IsEnabled="False" Width="100" Margin="5" TextAlignment="Left" VerticalAlignment="Center" Text="{Binding SelectedContactGender}" />
-                </StackPanel>
-                <StackPanel Orientation="Horizontal">
-                    <Label Width="70" Margin="5" Content="Briefanrede:"/>
-                    <TextBox TextWrapping="Wrap" Width="100" Margin="5" TextAlignment="Left" VerticalAlignment="Center" Text="{Binding SelectedContactLetterSalutation}" />
-                </StackPanel>
-            </StackPanel>
+            <Grid Grid.Row="1" Grid.Column="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="100" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <Label Grid.Row="0" Grid.Column="0" Margin="5" Content="Anrede:"/>
+                <TextBox Grid.Row="0" Grid.Column="1" TextWrapping="Wrap" IsEnabled="False" Margin="5" TextAlignment="Left" VerticalAlignment="Center" Text="{Binding SelectedContactSalutation}" />
+                <Label Grid.Row="1" Grid.Column="0" Margin="5" Content="Titel:"/>
+                <TextBox Grid.Row="1" Grid.Column="1" TextWrapping="Wrap" IsEnabled="False" Margin="5" TextAlignment="Left" VerticalAlignment="Center" Text="{Binding SelectedContactTitles}" />
+                <Label Grid.Row="2" Grid.Column="0" Margin="5" Content="Vorname:"/>
+                <TextBox Grid.Row="2" Grid.Column="1" TextWrapping="Wrap" Margin="5" TextAlignment="Left" VerticalAlignment="Center" Text="{Binding SelectedContactFirstName}" />
+                <Label Grid.Row="3" Grid.Column="0" Margin="5" Content="Nachname:"/>
+                <TextBox Grid.Row="3" Grid.Column="1" TextWrapping="Wrap" Margin="5" TextAlignment="Left" VerticalAlignment="Center" Text="{Binding SelectedContactLastName}" />
+                <Label Grid.Row="4" Grid.Column="0" Margin="5" Content="Geschlecht:"/>
+                <TextBox Grid.Row="4" Grid.Column="1" TextWrapping="Wrap" IsEnabled="False" Margin="5" TextAlignment="Left" VerticalAlignment="Center" Text="{Binding SelectedContactGender}" />
+                <Label Grid.Row="5" Grid.Column="0" Margin="5" Content="Briefanrede:"/>
+                <TextBox Grid.Row="5" Grid.Column="1" TextWrapping="Wrap" Margin="5" TextAlignment="Left" VerticalAlignment="Center" Text="{Binding SelectedContactLetterSalutation}" />
+            </Grid>
             <DockPanel Grid.Row="2" Grid.Column="0">
                 <Button DockPanel.Dock="Left" Width="100" Margin="5" Command="{Binding TitlesCommand}" Content="Titel"/>
                 <Button DockPanel.Dock="Left" Width="100" Margin="5" Command="{Binding SalutationsCommand}" Content="Anreden"/>

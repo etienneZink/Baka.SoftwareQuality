@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
-using Baka.ContactSplitter.model;
+using Baka.ContactSplitter.Model;
 
-namespace Baka.ContactSplitter.services.interfaces
+namespace Baka.ContactSplitter.Services.Interfaces
 {
     public interface ISalutationService
     {

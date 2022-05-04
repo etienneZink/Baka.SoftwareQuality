@@ -1,8 +1,8 @@
 ﻿using System.Linq;
-using Baka.ContactSplitter.model;
-using Baka.ContactSplitter.services.interfaces;
+using Baka.ContactSplitter.Model;
+using Baka.ContactSplitter.Services.Interfaces;
 
-namespace Baka.ContactSplitter.services.implementations
+namespace Baka.ContactSplitter.Services.Implementations
 {
     public class LetterSalutationService : ILetterSalutationService
     {

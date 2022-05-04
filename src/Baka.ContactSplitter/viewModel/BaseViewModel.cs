@@ -3,7 +3,7 @@ using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using JetBrains.Annotations;
 
-namespace Baka.ContactSplitter.viewModel
+namespace Baka.ContactSplitter.ViewModel
 {
     /// <summary>
     /// Base class for all viewModels.

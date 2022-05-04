@@ -1,11 +1,11 @@
-﻿<view:BaseWindow x:TypeArguments="viewModel:SalutationWindowViewModel" x:Class="Baka.ContactSplitter.view.SalutationWindow"
+﻿<view:BaseWindow x:TypeArguments="viewModel:SalutationWindowViewModel" x:Class="Baka.ContactSplitter.View.SalutationWindow"
                  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                  xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
                  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-                 xmlns:frontendModels="clr-namespace:Baka.ContactSplitter.frontendModel"
-                 xmlns:view="clr-namespace:Baka.ContactSplitter.view"
-                 xmlns:viewModel="clr-namespace:Baka.ContactSplitter.viewModel"
+                 xmlns:frontendModels="clr-namespace:Baka.ContactSplitter.FrontendModel"
+                 xmlns:view="clr-namespace:Baka.ContactSplitter.View"
+                 xmlns:viewModel="clr-namespace:Baka.ContactSplitter.ViewModel"
                  mc:Ignorable="d"
                  Title="Anreden" Height="450" Width="800">
     <Grid xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">

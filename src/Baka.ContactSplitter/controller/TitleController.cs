@@ -1,11 +1,11 @@
 ﻿using System.Linq;
-using Baka.ContactSplitter.framework;
-using Baka.ContactSplitter.frontendModel;
-using Baka.ContactSplitter.services.interfaces;
-using Baka.ContactSplitter.view;
-using Baka.ContactSplitter.viewModel;
+using Baka.ContactSplitter.Framework;
+using Baka.ContactSplitter.FrontendModel;
+using Baka.ContactSplitter.Services.Interfaces;
+using Baka.ContactSplitter.View;
+using Baka.ContactSplitter.ViewModel;
 
-namespace Baka.ContactSplitter.controller
+namespace Baka.ContactSplitter.Controller
 {
     /// <summary>
     /// Class which is used as the controller for the TitleWindowViewModel and the TitleWindow.

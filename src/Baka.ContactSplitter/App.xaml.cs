@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Data;
+﻿using System.Data;
 using System.Linq;
 using System.Reflection;
-using System.Threading.Tasks;
 using System.Windows;
 using Autofac;
-using Baka.ContactSplitter.controller;
+using Baka.ContactSplitter.Controller;
 
 namespace Baka.ContactSplitter
 {
@@ -25,13 +21,13 @@ namespace Baka.ContactSplitter
             ContainerBuilder containerBuilder = new ContainerBuilder();
             //add services as service interfaces to dependency injection
             containerBuilder.RegisterAssemblyTypes(Assembly.GetExecutingAssembly())
-                .Where(t => t.Namespace.Contains("services") && t.IsClass)
+                .Where(t => t.Namespace.Contains("Services") && t.IsClass)
                 .As(t => t.GetInterfaces().FirstOrDefault(i => i.Name == "I" + t.Name))
                 .SingleInstance();
             //add views and viewmodels to dependency injection
             containerBuilder.RegisterAssemblyTypes(Assembly.GetExecutingAssembly())
-                .Where(t => t.IsClass && (t.Namespace.Contains("view") || t.Namespace.Contains("viewModel") ||
-                                          t.Namespace.Contains("controller")));
+                .Where(t => t.IsClass && (t.Namespace.Contains("View") || t.Namespace.Contains("ViewModel") ||
+                                          t.Namespace.Contains("Controller")));
             //add the app to dependency injection
             containerBuilder.RegisterInstance(this);
 

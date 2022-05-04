@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Linq;
 using Autofac;
-using Baka.ContactSplitter.framework;
-using Baka.ContactSplitter.model;
-using Baka.ContactSplitter.services.interfaces;
-using Baka.ContactSplitter.view;
-using Baka.ContactSplitter.viewModel;
+using Baka.ContactSplitter.Framework;
+using Baka.ContactSplitter.Model;
+using Baka.ContactSplitter.Services.Interfaces;
+using Baka.ContactSplitter.View;
+using Baka.ContactSplitter.ViewModel;
 
-namespace Baka.ContactSplitter.controller
+namespace Baka.ContactSplitter.Controller
 {
     /// <summary>
     /// Class which is used as the controller for the MainWindowViewModel and the MainWindow.

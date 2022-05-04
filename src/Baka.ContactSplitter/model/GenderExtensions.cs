@@ -1,4 +1,4 @@
-﻿namespace Baka.ContactSplitter.model
+﻿namespace Baka.ContactSplitter.Model
 {
     public static class GenderExtensions
     {

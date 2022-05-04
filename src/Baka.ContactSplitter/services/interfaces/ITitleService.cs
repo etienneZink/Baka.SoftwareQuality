@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Baka.ContactSplitter.services.interfaces
+namespace Baka.ContactSplitter.Services.Interfaces
 {
     public interface ITitleService
     {

@@ -1,8 +1,7 @@
-﻿using System.Security.RightsManagement;
-using System.Windows;
-using Baka.ContactSplitter.viewModel;
+﻿using System.Windows;
+using Baka.ContactSplitter.ViewModel;
 
-namespace Baka.ContactSplitter.view
+namespace Baka.ContactSplitter.View
 {
     public partial class BaseWindow<TViewModel>: Window where TViewModel: BaseViewModel
     {

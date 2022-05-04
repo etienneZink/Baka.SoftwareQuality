@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
-using Baka.ContactSplitter.frontendModel;
+using Baka.ContactSplitter.FrontendModel;
 
-namespace Baka.ContactSplitter.viewModel
+namespace Baka.ContactSplitter.ViewModel
 {
     /// <summary>
     /// Class which is used as a viewModel for the TitleWindow.

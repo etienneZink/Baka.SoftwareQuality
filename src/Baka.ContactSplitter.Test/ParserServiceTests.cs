@@ -1,8 +1,6 @@
-using System.Collections.Generic;
 using System.Linq;
-using Baka.ContactSplitter.model;
-using Baka.ContactSplitter.services.implementations;
-using Baka.ContactSplitter.services.interfaces;
+using Baka.ContactSplitter.Services.Implementations;
+using Baka.ContactSplitter.Services.Interfaces;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NSubstitute;
 

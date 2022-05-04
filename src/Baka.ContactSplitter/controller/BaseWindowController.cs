@@ -1,7 +1,7 @@
-﻿using Baka.ContactSplitter.view;
-using Baka.ContactSplitter.viewModel;
+﻿using Baka.ContactSplitter.View;
+using Baka.ContactSplitter.ViewModel;
 
-namespace Baka.ContactSplitter.controller
+namespace Baka.ContactSplitter.Controller
 {
     /// <summary>
     /// Base class for all controllers.

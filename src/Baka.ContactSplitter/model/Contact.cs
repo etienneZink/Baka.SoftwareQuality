@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Baka.ContactSplitter.model
+namespace Baka.ContactSplitter.Model
 {
     /// <summary>
     /// Represents a contact which is split into its individual parts.

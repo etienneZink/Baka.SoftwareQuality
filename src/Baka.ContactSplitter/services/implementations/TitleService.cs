@@ -1,10 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
-using Baka.ContactSplitter.services.interfaces;
+using Baka.ContactSplitter.Services.Interfaces;
 using Newtonsoft.Json;
 
-namespace Baka.ContactSplitter.services.implementations
+namespace Baka.ContactSplitter.Services.Implementations
 {
     /// <summary>
     /// Implementation of the service interface ITitleService.

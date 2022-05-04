@@ -2,10 +2,10 @@
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Input;
-using Baka.ContactSplitter.frontendModel;
-using Baka.ContactSplitter.model;
+using Baka.ContactSplitter.FrontendModel;
+using Baka.ContactSplitter.Model;
 
-namespace Baka.ContactSplitter.viewModel
+namespace Baka.ContactSplitter.ViewModel
 {
     /// <summary>
     /// Class which is used as a viewModel for the SalutationWindow.
@@ -25,7 +25,7 @@ namespace Baka.ContactSplitter.viewModel
         public ObservableCollection<string> Genders => _genders ??= new (Enum.GetValues<Gender>().Select(gender => gender.ToGermanString()));
 
         // property which represents the gender for the salutation to be added/updated or deleted
-        private Gender _gender = model.Gender.Neutral;
+        private Gender _gender = Model.Gender.Neutral;
         public string Gender
         {
             get => _gender.ToGermanString();

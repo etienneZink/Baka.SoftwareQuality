@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Input;
 
-namespace Baka.ContactSplitter.framework
+namespace Baka.ContactSplitter.Framework
 {
     public class RelayCommand : ICommand
     {
