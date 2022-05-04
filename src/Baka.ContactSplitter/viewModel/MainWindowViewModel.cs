@@ -14,8 +14,6 @@ namespace Baka.ContactSplitter.viewModel
     public class MainWindowViewModel : BaseViewModel
     {
         public ISalutationService SalutationService { get; }
-        public ILetterSalutationService LetterSalutationService { get; }
-        public IParserService ParserService { get; }
 
         public ICommand AddCommand { get; set; }
         public ICommand DeleteCommand { get; set; }
@@ -23,8 +21,11 @@ namespace Baka.ContactSplitter.viewModel
         public ICommand TitlesCommand { get; set; }
         public ICommand SalutationsCommand { get; set; }
 
-        public MainWindowViewModel(ISalutationService salutationService,
-            ILetterSalutationService letterSalutationService, IParserService parserService)
+        public event Action<string> InputChanged;
+
+        public event Action<int> SelectedContactIndexChanged;
+
+        public MainWindowViewModel(ISalutationService salutationService)
         {
             if (salutationService is null)
             {
@@ -33,19 +34,6 @@ namespace Baka.ContactSplitter.viewModel
 
             SalutationService = salutationService;
 
-            if (letterSalutationService is null)
-            {
-                throw new ArgumentNullException(nameof(letterSalutationService));
-            }
-
-            LetterSalutationService = letterSalutationService;
-
-            if (parserService is null)
-            {
-                throw new ArgumentNullException(nameof(parserService));
-            }
-
-            ParserService = parserService;
             Contacts.CollectionChanged += (sender, args) => OnPropertyChanged(nameof(ViewModelContacts));
         }
 
@@ -69,31 +57,8 @@ namespace Baka.ContactSplitter.viewModel
             set
             {
                 SetField(ref _input, value);
-                if (Input == string.Empty)
-                {
-                    ErrorMessage = string.Empty;
-                    return;
-                }
 
-                var parseResult = ParserService.ParseContact(Input);
-                if (parseResult.Successful)
-                {
-                    SelectedContactSalutation = parseResult.Model.Salutation;
-                    SelectedContactTitles =  parseResult.Model.Titles.Count > 0 ?
-                        parseResult.Model.Titles.Aggregate((current, title) => $"{current} {title}"):
-                        string.Empty;
-                    SelectedContactFirstName = parseResult.Model.FirstName;
-                    SelectedContactLastName = parseResult.Model.LastName;
-                    SelectedContactGender = SalutationService.GetGender(parseResult.Model.Salutation).ToString();
-                    SelectedContactLetterSalutation =
-                        LetterSalutationService.GenerateLetterSalutation(parseResult.Model);
-                    ErrorMessage = string.Empty;
-                }
-                else
-                {
-                    ResetPreview();
-                    ErrorMessage = parseResult.ErrorMessages[0];
-                }
+                InputChanged?.Invoke(Input);
             }
         }
 
@@ -105,20 +70,8 @@ namespace Baka.ContactSplitter.viewModel
             set
             {
                 SetField(ref _selectedContactIndex, value);
-                if (SelectedContactIndex >= 0 && SelectedContactIndex < Contacts.Count)
-                {
-                    SelectedContactSalutation = ViewModelContacts[SelectedContactIndex].Salutation;
-                    SelectedContactTitles = ViewModelContacts[SelectedContactIndex].Titles;
-                    SelectedContactFirstName = ViewModelContacts[SelectedContactIndex].FirstName;
-                    SelectedContactLastName = ViewModelContacts[SelectedContactIndex].LastName;
-                    SelectedContactGender = ViewModelContacts[SelectedContactIndex].Gender;
-                    SelectedContactLetterSalutation =
-                        LetterSalutationService.GenerateLetterSalutation(Contacts[SelectedContactIndex]);
-                }
-                else
-                {
-                    ResetPreview();
-                }
+                
+                SelectedContactIndexChanged?.Invoke(SelectedContactIndex);
             }
         }
 
@@ -185,21 +138,10 @@ namespace Baka.ContactSplitter.viewModel
                         LastName = contact.LastName,
                         Salutation = contact.Salutation,
                         Titles = titles.Aggregate((current, title) => $"{current} {title}"),
-                        Gender = SalutationService.GetGender(contact.Salutation).ToString()
+                        Gender = SalutationService.GetGender(contact.Salutation).ToGermanString()
                     };
                 }));
             }
-        }
-
-        public void ResetPreview()
-        {
-            SelectedContactSalutation = string.Empty;
-            SelectedContactTitles = string.Empty;
-            SelectedContactFirstName = string.Empty;
-            SelectedContactLastName = string.Empty;
-            SelectedContactGender = string.Empty;
-            SelectedContactLetterSalutation = string.Empty;
-            ErrorMessage = string.Empty;
         }
     }
 }

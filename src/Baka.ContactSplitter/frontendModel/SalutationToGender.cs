@@ -5,6 +5,6 @@ namespace Baka.ContactSplitter.frontendModel
     public class SalutationToGender
     {
         public string Salutation { get; init; }
-        public Gender Gender { get; init; }
+        public string GenderString { get; init; }
     }
 }

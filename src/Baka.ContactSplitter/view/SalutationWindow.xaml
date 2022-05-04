@@ -23,7 +23,7 @@
                         <TextBlock Width="100" Margin ="5" FontWeight="Bold" Text="Anrede:"/>
                         <TextBlock Width="100" Margin ="5" Text="{Binding Salutation}"/>
                         <TextBlock Width="100" Margin ="5" FontWeight="Bold" Text="Geschlecht:"/>
-                        <TextBlock Width="100" Margin ="5" Text="{Binding Gender}"/>
+                        <TextBlock Width="100" Margin ="5" Text="{Binding GenderString}"/>
                     </StackPanel>
                 </DataTemplate>
             </ListBox.ItemTemplate>

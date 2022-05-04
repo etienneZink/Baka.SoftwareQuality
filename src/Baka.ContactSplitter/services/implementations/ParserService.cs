@@ -49,18 +49,18 @@ namespace Baka.ContactSplitter.services.implementations
 
             var possibleSalutations = SalutationService.GetSalutations();
             if (!possibleSalutations.Any()) possibleSalutations = new[] { string.Empty };
-            var possibleSalutationsRegex = possibleSalutations.Aggregate((current, salutation) => current + "|" + salutation);
+            var possibleSalutationsRegex = possibleSalutations.Aggregate((current, salutation) => current + "|" + salutation).Replace(".", @"\.");
             possibleSalutationsRegex = "(" + string.Concat(possibleSalutationsRegex) + ")";
 
             var possibleTitles = TitleService.GetTitles();
             if (!possibleTitles.Any()) possibleTitles = new[] { string.Empty };
-            var possibleTitlesRegex = possibleTitles.Aggregate((current, title) => current + "|" + title);
+            var possibleTitlesRegex = possibleTitles.Aggregate((current, title) => current + "|" + title).Replace(".", @"\.");
             possibleTitlesRegex = "(" + string.Concat(possibleTitlesRegex) + ")";
 
             var regex = ContactPattern.Replace("<PossibleSalutations>", possibleSalutationsRegex);
             regex = regex.Replace("<PossibleTitles>", possibleTitlesRegex);
-            regex = regex.Replace("<FirstNamePattern>", @"[A-Z][a-z]*((\s+|\-)[A-Z][a-z]*)*");
-            regex = regex.Replace("<LastNamePattern>", @"([a-z]+\s+)*[A-Z][a-z]*([-][A-Z][a-z]*)?");
+            regex = regex.Replace("<FirstNamePattern>", @"\p{Lu}\p{Ll}*((\s+|\-)\p{Lu}\p{Ll}*)*");
+            regex = regex.Replace("<LastNamePattern>", @"(\p{Ll}+\s+)*\p{Lu}\p{Ll}*(\p{Lu}\p{Ll}*)?([-]\p{Lu}\p{Ll}*(\p{Lu}\p{Ll}*)?)?");
 
             var matchResult = Regex.Match(contactString, regex);
 

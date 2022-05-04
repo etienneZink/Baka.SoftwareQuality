@@ -14,7 +14,7 @@
             <RowDefinition Height="1*"/>
         </Grid.RowDefinitions>
         <StackPanel Margin="5" Grid.Row="0" Grid.Column="0" Orientation="Horizontal" >
-            <Label Margin="5" Content="Neuer Kontakt:"/>
+            <Label Margin="0 5 5 5" Content="Neuer Kontakt:"/>
             <TextBox TextAlignment="Left" VerticalAlignment="Center" Margin="5" Text="{Binding Input, UpdateSourceTrigger=PropertyChanged}" Width="200" />
             <Button Width="100" Margin="5" Content="Hinzufügen" Command="{Binding AddCommand}"/>
             <Label Margin="5" FontWeight="Bold" Content="{Binding ErrorMessage}"/>
@@ -30,13 +30,13 @@
                 <RowDefinition Height="auto" />
             </Grid.RowDefinitions>
             <Label Grid.Row="0" Grid.Column="1" Content="Vorschau:" FontWeight="Bold"/>
-            <Grid Grid.Row="0" Grid.Column="0" Background="LightBlue">
+            <Grid Grid.Row="0" Grid.Column="0" Background="LightBlue" Margin="5 0 0 0">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="80"/>
-                    <ColumnDefinition Width="130"/>
-                    <ColumnDefinition Width="150"/>
-                    <ColumnDefinition Width="150"/>
-                    <ColumnDefinition Width="80"/>
+                    <ColumnDefinition Width="80*"/>
+                    <ColumnDefinition Width="130*"/>
+                    <ColumnDefinition Width="150*"/>
+                    <ColumnDefinition Width="150*"/>
+                    <ColumnDefinition Width="80*"/>
                 </Grid.ColumnDefinitions>
                 <TextBlock Grid.Column="0" Text="Anrede" TextWrapping="Wrap" HorizontalAlignment="Center" VerticalAlignment="Center" TextAlignment="Center" Width="Auto"/>
                 <TextBlock Grid.Column="1" Text="Titel" TextWrapping="Wrap" HorizontalAlignment="Center" VerticalAlignment="Center" TextAlignment="Center" Width="Auto"/>
@@ -44,25 +44,31 @@
                 <TextBlock Grid.Column="3" Text="Nachname" TextWrapping="Wrap" HorizontalAlignment="Center" VerticalAlignment="Center" TextAlignment="Center" Width="Auto"/>
                 <TextBlock Grid.Column="4" Text="Geschlecht" TextWrapping="Wrap" HorizontalAlignment="Center" VerticalAlignment="Center" TextAlignment="Center" Width="Auto"/>
             </Grid>
-            <ListBox Grid.Row="1" Grid.Column="0" ItemsSource="{Binding ViewModelContacts}" SelectedIndex="{Binding SelectedContactIndex}" Background="LightGray">
+            <ListBox Grid.Row="1" Grid.Column="0" HorizontalContentAlignment="Stretch" ItemsSource="{Binding ViewModelContacts}" SelectedIndex="{Binding SelectedContactIndex}" Background="LightGray" Margin="5 0 0 0">
                 <ListBox.ItemTemplate>
                     <DataTemplate DataType="{x:Type frontendModel:ViewModelContact}">
                         <Grid>
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="80"/>
-                                <ColumnDefinition Width="130"/>
-                                <ColumnDefinition Width="150"/>
-                                <ColumnDefinition Width="150"/>
-                                <ColumnDefinition Width="80"/>
+                                <ColumnDefinition Width="80*"/>
+                                <ColumnDefinition Width="130*"/>
+                                <ColumnDefinition Width="150*"/>
+                                <ColumnDefinition Width="150*"/>
+                                <ColumnDefinition Width="80*"/>
                             </Grid.ColumnDefinitions>
-                            <TextBlock Grid.Column="0" Grid.Row="0" TextWrapping="Wrap" HorizontalAlignment="Center" VerticalAlignment="Center" TextAlignment="Center" Text="{Binding Salutation}" Width="Auto" Margin="5"/>
-                            <TextBlock Grid.Column="1" Grid.Row="0" TextWrapping="Wrap" HorizontalAlignment="Center" VerticalAlignment="Center" TextAlignment="Center" Text="{Binding Titles}" Width="Auto" Margin="5"/>
-                            <TextBlock Grid.Column="2" Grid.Row="0" TextWrapping="Wrap" HorizontalAlignment="Center" VerticalAlignment="Center" TextAlignment="Center" Text="{Binding FirstName}" Width="Auto" Margin="5"/>
-                            <TextBlock Grid.Column="3" Grid.Row="0" TextWrapping="Wrap" HorizontalAlignment="Center" VerticalAlignment="Center" TextAlignment="Center" Text="{Binding LastName}" Width="Auto" Margin="5"/>
-                            <TextBlock Grid.Column="4" Grid.Row="0" TextWrapping="Wrap" HorizontalAlignment="Center" VerticalAlignment="Center" TextAlignment="Center" Text="{Binding Gender}" Width="Auto" Margin="5"/>
+                            <TextBlock Grid.Column="0" Grid.Row="0" TextWrapping="Wrap" HorizontalAlignment="Center" VerticalAlignment="Center" TextAlignment="Center" Text="{Binding Salutation}" Width="Auto"/>
+                            <TextBlock Grid.Column="1" Grid.Row="0" TextWrapping="Wrap" HorizontalAlignment="Center" VerticalAlignment="Center" TextAlignment="Center" Text="{Binding Titles}" Width="Auto"/>
+                            <TextBlock Grid.Column="2" Grid.Row="0" TextWrapping="Wrap" HorizontalAlignment="Center" VerticalAlignment="Center" TextAlignment="Center" Text="{Binding FirstName}" Width="Auto"/>
+                            <TextBlock Grid.Column="3" Grid.Row="0" TextWrapping="Wrap" HorizontalAlignment="Center" VerticalAlignment="Center" TextAlignment="Center" Text="{Binding LastName}" Width="Auto"/>
+                            <TextBlock Grid.Column="4" Grid.Row="0" TextWrapping="Wrap" HorizontalAlignment="Center" VerticalAlignment="Center" TextAlignment="Center" Text="{Binding Gender}" Width="Auto"/>
                         </Grid>
                     </DataTemplate>
                 </ListBox.ItemTemplate>
+                <ListBox.ItemContainerStyle>
+                    <Style TargetType="ListBoxItem">
+                        <Setter Property="Margin" Value="0" />
+                        <Setter Property="Padding" Value="0" />
+                    </Style>
+                </ListBox.ItemContainerStyle>
             </ListBox>
             <StackPanel Grid.Row="1" Grid.Column="1">
                 <StackPanel Orientation="Horizontal">
@@ -90,12 +96,11 @@
                     <TextBox TextWrapping="Wrap" Width="100" Margin="5" TextAlignment="Left" VerticalAlignment="Center" Text="{Binding SelectedContactLetterSalutation}" />
                 </StackPanel>
             </StackPanel>
-            <StackPanel Grid.Row="2" Grid.Column="0" Orientation="Horizontal">
-                <Button Width="100" Margin="5" Command="{Binding TitlesCommand}" Content="Titel"/>
-                <Button Width="100" Margin="5" Command="{Binding SalutationsCommand}" Content="Anreden"/>
-                <Label Width="250"/>
-                <Button Width="100" Margin="5" Command="{Binding DeleteCommand}" Content="Löschen"/>
-            </StackPanel>
+            <DockPanel Grid.Row="2" Grid.Column="0">
+                <Button DockPanel.Dock="Left" Width="100" Margin="5" Command="{Binding TitlesCommand}" Content="Titel"/>
+                <Button DockPanel.Dock="Left" Width="100" Margin="5" Command="{Binding SalutationsCommand}" Content="Anreden"/>
+                <Button DockPanel.Dock="Right" HorizontalAlignment="Right" Width="100" Margin="5 5 0 5" Command="{Binding DeleteCommand}" Content="Löschen"/>
+            </DockPanel>
         </Grid>
     </Grid>
 </local:BaseWindow>

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Windows.Input;
 using Baka.ContactSplitter.frontendModel;
 using Baka.ContactSplitter.model;
@@ -15,18 +16,20 @@ namespace Baka.ContactSplitter.viewModel
         public ICommand AddOrUpdateCommand { get; set; }
         public ICommand DeleteCommand { get; set; }
 
+        public event Action<int> SelectedSalutationIndexChanged;
+
         public ObservableCollection<SalutationToGender> Salutations { get; } = new();
 
         // property which represents all possible genders
-        private ObservableCollection<Gender> _genders;
-        public ObservableCollection<Gender> Genders => _genders ??= new (Enum.GetValues<Gender>());
+        private ObservableCollection<string> _genders;
+        public ObservableCollection<string> Genders => _genders ??= new (Enum.GetValues<Gender>().Select(gender => gender.ToGermanString()));
 
         // property which represents the gender for the salutation to be added/updated or deleted
-        private Gender _gender = Gender.Neutral;
-        public Gender Gender
+        private Gender _gender = model.Gender.Neutral;
+        public string Gender
         {
-            get => _gender;
-            set => SetField(ref _gender, value);
+            get => _gender.ToGermanString();
+            set => SetField(ref _gender, value.ToGenderFromGermanString());
         }
 
         // property which represents the salutation to be added/updated or deleted
@@ -45,16 +48,8 @@ namespace Baka.ContactSplitter.viewModel
             set
             {
                 SetField(ref _selectedSalutationIndex, value);
-                if (SelectedSalutationIndex >= 0 && SelectedSalutationIndex < Salutations.Count)
-                {
-                    Salutation = Salutations[_selectedSalutationIndex].Salutation;
-                    Gender = Salutations[_selectedSalutationIndex].Gender;
-                }
-                else
-                {
-                    Salutation = string.Empty;
-                    Gender = Gender.Neutral;
-                }
+
+                SelectedSalutationIndexChanged?.Invoke(SelectedSalutationIndex);
             }
         }
     }

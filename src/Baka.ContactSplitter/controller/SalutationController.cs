@@ -22,14 +22,16 @@ namespace Baka.ContactSplitter.controller
             ViewModel.DeleteCommand = new RelayCommand(ExecuteDeleteCommand, CanExecuteDeleteCommand);
             SalutationService = salutationService;
             LoadSalutationsToGenders();
+
+            ViewModel.SelectedSalutationIndexChanged += OnSelectedSalutationIndexChanged;
         }
 
         public void ExecuteAddOrUpdateCommand(object o)
         {
-            SalutationService.SaveOrUpdateSalutation(ViewModel.Salutation, ViewModel.Gender);
+            SalutationService.SaveOrUpdateSalutation(ViewModel.Salutation, ViewModel.Gender.ToGenderFromGermanString());
             LoadSalutationsToGenders();
             ViewModel.Salutation = string.Empty;
-            ViewModel.Gender = Gender.Neutral;
+            ViewModel.Gender = Gender.Neutral.ToGermanString();
         }
 
         public bool CanExecuteAddOrUpdateCommand(object o)
@@ -44,7 +46,7 @@ namespace Baka.ContactSplitter.controller
             ViewModel.Salutations.RemoveAt(ViewModel.SelectedSalutationIndex);
             SalutationService.DeleteSalutation(stg.Salutation);
             ViewModel.Salutation = string.Empty;
-            ViewModel.Gender = Gender.Neutral;
+            ViewModel.Gender = Gender.Neutral.ToGermanString();
         }
 
         public bool CanExecuteDeleteCommand(object o)
@@ -62,12 +64,25 @@ namespace Baka.ContactSplitter.controller
                 .Select(s => new SalutationToGender
                 {
                     Salutation = s,
-                    Gender = SalutationService.GetGender(s)
+                    GenderString = SalutationService.GetGender(s).ToGermanString()
                 });
 
             foreach (var stg in titleToTitleSalutations)
             {
                 ViewModel.Salutations.Add(stg);
+            }
+        }
+        private void OnSelectedSalutationIndexChanged(int selectedSalutationIndex)
+        {
+            if (selectedSalutationIndex >= 0 && selectedSalutationIndex < ViewModel.Salutations.Count)
+            {
+                ViewModel.Salutation = ViewModel.Salutations[selectedSalutationIndex].Salutation;
+                ViewModel.Gender = ViewModel.Salutations[selectedSalutationIndex].GenderString;
+            }
+            else
+            {
+                ViewModel.Salutation = string.Empty;
+                ViewModel.Gender = Gender.Neutral.ToGermanString();
             }
         }
     }

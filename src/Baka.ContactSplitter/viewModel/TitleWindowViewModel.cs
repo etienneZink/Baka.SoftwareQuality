@@ -1,4 +1,5 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
 using System.Windows.Input;
 using Baka.ContactSplitter.frontendModel;
 
@@ -12,6 +13,8 @@ namespace Baka.ContactSplitter.viewModel
 
         public ICommand AddOrUpdateCommand { get; set; }
         public ICommand DeleteCommand { get; set; }
+
+        public event Action<int> SelectedTitleIndexChanged;
         
         public ObservableCollection<TitleToTitleSalutation> Titles { get; set; } = new();
 
@@ -39,16 +42,8 @@ namespace Baka.ContactSplitter.viewModel
             set
             {
                 SetField(ref _selectedTitleIndex, value);
-                if (SelectedTitleIndex >= 0 && SelectedTitleIndex < Titles.Count)
-                {
-                    Title = Titles[_selectedTitleIndex].Title;
-                    TitleSalutation = Titles[_selectedTitleIndex].TitleSalutation;
-                }
-                else
-                {
-                    Title = string.Empty;
-                    TitleSalutation = string.Empty;
-                }
+
+                SelectedTitleIndexChanged?.Invoke(SelectedTitleIndex);
             }
         }
     }

@@ -21,6 +21,8 @@ namespace Baka.ContactSplitter.controller
             ViewModel.DeleteCommand = new RelayCommand(ExecuteDeleteCommand, CanExecuteDeleteCommand);
             TitleService = titleService;
             LoadTitlesToTitleSalutations();
+
+            ViewModel.SelectedTitleIndexChanged += OnSelectedTitleIndexChanged;
         }
 
         public void ExecuteAddOrUpdateCommand(object o)
@@ -67,6 +69,20 @@ namespace Baka.ContactSplitter.controller
             foreach (var tts in titleToTitleSalutations)
             {
                 ViewModel.Titles.Add(tts);
+            }
+        }
+
+        private void OnSelectedTitleIndexChanged(int selectedTitleIndex)
+        {
+            if (selectedTitleIndex >= 0 && selectedTitleIndex < ViewModel.Titles.Count)
+            {
+                ViewModel.Title = ViewModel.Titles[selectedTitleIndex].Title;
+                ViewModel.TitleSalutation = ViewModel.Titles[selectedTitleIndex].TitleSalutation;
+            }
+            else
+            {
+                ViewModel.Title = string.Empty;
+                ViewModel.TitleSalutation = string.Empty;
             }
         }
     }
