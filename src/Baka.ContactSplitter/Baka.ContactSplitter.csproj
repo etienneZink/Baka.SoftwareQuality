@@ -13,29 +13,29 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="resources\Salutations.json">
+    <None Update="Resources\Salutations.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="resources\Titles.json">
+    <None Update="Resources\Titles.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="framework\" />
+    <Folder Include="Framework\" />
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Update="view\SalutationWindow.xaml.cs">
+    <Compile Update="View\SalutationWindow.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-	<Compile Update="view\TitleWindow.xaml.cs">
+	<Compile Update="View\TitleWindow.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>
 
   <ItemGroup>
-    <Page Update="view\SalutationWindow.xaml">
+    <Page Update="View\SalutationWindow.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
     </Page>
