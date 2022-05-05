@@ -4,34 +4,66 @@ skinparam genericDisplay old
 skinparam classAttributeIconSize 0
 skinparam monochrome true
 
-component KontaktSplitter{
+component ContactSplitter{
 
-    component View{
-        class MainView
+    component View {
+        class BaseWindow<VM extends BaseViewModel>
+        class MainWindow
+        class TitleWindow
+        class SalutationWindow
     }
 
-    component ViewModel{
-        class MainViewViewModel
+    component ViewModel {
+        class BaseViewModel
+        class MainWindowViewModel
+        class TitleWindowViewModel
+        class SalutationWindowViewModel
+    }
+
+    component Controller {
+        class BaseWindowController<V extends BaseWindow, VM extends BaseViewModel>
+        class MainWindowController
+        class TitleWindowController
+        class SalutationWindowController
     }
 
     component Model{
         class Contact
+        class ParseResult<M>
+        enum Gender<<enum>>
     }
 
-    component Services{
+    component Service {
         class TitleService
-        class AdressationService
+        class SalutationService
         class ParserService
-        class LetterAdressationService
+        class LetterSalutationService
     }
 }
 
 hide methods
 hide fields
 
-Model <-- ViewModel
-Services <-- ViewModel
-ViewModel <-- View
-Services --> Model
+'view
+BaseWindow <|-- MainWindow
+BaseWindow <|-- TitleWindow
+BaseWindow <|-- SalutationWindow
+
+'viewModel
+BaseViewModel <|-- MainWindowViewModel
+BaseViewModel <|-- TitleWindowViewModel
+BaseViewModel <|-- SalutationWindowViewModel
+
+'controller
+BaseWindowController <|-- MainWindowController
+BaseWindowController <|-- TitleWindowController
+BaseWindowController <|-- SalutationWindowController
+
+'associations
+View <-- Controller
+Service <-- Controller
+Controller --> ViewModel
+Service --> Model
+ViewModel --> Model
 
 @enduml

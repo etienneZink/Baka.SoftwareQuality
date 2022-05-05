@@ -1,19 +1,30 @@
-@startuml Architektur_Grob
+@startuml Architektur_Fein
 skinparam Style strictuml
 skinparam genericDisplay old
 skinparam classAttributeIconSize 0
 skinparam monochrome true
 
-component KontaktSplitter{
+component ContactSplitter{
 
-    component View{
-        class MainView
+    component View {
+        class BaseWindow<VM extends BaseViewModel>
+        class MainWindow
+        class TitleWindow
+        class SalutationWindow
     }
 
-    component ViewModel{
-        class MainViewViewModel{
-            'ToDo Bindings
-        }
+    component ViewModel {
+        class BaseViewModel
+        class MainWindowViewModel
+        class TitleWindowViewModel
+        class SalutationWindowViewModel
+    }
+
+    component Controller {
+        class BaseWindowController<V extends BaseWindow, VM extends BaseViewModel>
+        class MainWindowController
+        class TitleWindowController
+        class SalutationWindowController
     }
 
     component Model{
@@ -22,7 +33,7 @@ component KontaktSplitter{
             +lastName: string
             +firstName: string
             +gender: Gender
-            +titles: IEnumerable<string>
+            +titles: IList<string>
         }
 
         class ParseResult<M>{
@@ -32,13 +43,13 @@ component KontaktSplitter{
         }
 
         enum Gender<<enum>>{
-            MALE
-            FEMALE
-            NEUTRAL
+            Female
+            Male
+            Neutral
         }
     }
 
-    component Services{
+    component Service {
         class TitleService{
             +SaveOrUpdateTitle(title: string, titleSalutation: string): boolean
             +DeleteTitle(title: string): boolean
@@ -66,28 +77,43 @@ component KontaktSplitter{
     }
 }
 
-
-
-MainView --> MainViewViewModel
-
-'MainViewViewModel --> ParserService
-'MainViewViewModel --> LetterSalutationService
-'MainViewViewModel --> Contact
-'MainViewViewModel --> TitleService
-'MainViewViewModel --> SalutationService
-MainViewViewModel --> Model
-MainViewViewModel --> Services
-
+'services
+'letterSalutation service
 LetterSalutationService --> TitleService
 LetterSalutationService --> Contact
-
+'parser serive
 TitleService <-- ParserService
 SalutationService <-- ParserService
 Contact <-- ParserService
 ParseResult <-- ParserService:<<bind>>M::Contact
-
+'salutation service
 SalutationService --> Gender
 
+'model
 Contact --> Gender
+
+'view
+BaseWindow <|-- MainWindow:<<bind>>VM::MainWindowViewModel
+BaseWindow <|-- TitleWindow:<<bind>>VM::TitleWindowViewModel
+BaseWindow <|-- SalutationWindow:<<bind>>VM::SalutationWindowViewModel
+
+'viewModel
+BaseViewModel <|-- MainWindowViewModel
+BaseViewModel <|-- TitleWindowViewModel
+BaseViewModel <|-- SalutationWindowViewModel
+
+'controller
+BaseWindowController <|-- MainWindowController:<<bind>>V::MainWindow,VM::MainWindowViewModel
+BaseWindowController <|-- TitleWindowController:<<bind>>V::TitleWindow,VM::TitleWindowViewModel
+BaseWindowController <|-- SalutationWindowController:<<bind>>V::SalutationWindow,VM::SalutationWindowViewModel
+
+'view - viewModel - controller - service
+Service <-- Controller
+Controller --> View
+Controller --> ViewModel
+ViewModel --> Model
+
+hide empty fields
+hide empty methods
 
 @enduml
