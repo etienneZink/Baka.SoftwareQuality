@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Baka.ContactSplitter.Model
 {
@@ -13,10 +14,16 @@ namespace Baka.ContactSplitter.Model
 
         public string FirstName { get; set; }
         
-        private IList<string> _Titles;
         /// <summary>
         /// A contact can have zero or many titles.
         /// </summary>
-        public IList<string> Titles => _Titles ??= new List<string>();
+        public IList<string> Titles { get; init; }
+
+        public Contact(): this(new List<string>()) { }
+
+        public Contact([NotNull] IList<string> titles)
+        {
+            Titles = titles;
+        }
     }
 }
